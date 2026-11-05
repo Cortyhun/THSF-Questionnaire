@@ -850,14 +850,21 @@ function band(score){
 }
 
 function getVerdict(s){
-  const rel=s.reliability, sc=s.selfControl, coop=s.cooperation, risk=s.risk, ego=s.ego, cur=s.curiosity, ind=s.independence;
-  if(rel>=68 && sc>=60) return ["Personal Interview Recommended","Rinmei has stopped frowning, which is already an achievement."];
-  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested, but Rinmei would like several additional questions to be asked in your Personal Interview."];
-  if(ind>=76 && coop<42) return ["Specialist Candidate","Useful, capable, but Seloryn is suspicious of you. Better to go and practice an honest smile."];
-  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork... Let's start from the first questions once again, slower this time."];
-  if(coop>=72 && rel>=60) return ["Strong Group Fit","You look like someone the Wardens would actually want beside them on a mission."];
-  if(risk>=80 && sc<40) return ["Arya Approved","Please note: This is not the same thing as official acceptance."];
-  return ["Personal Interview Recommended","Interesting enough to talk to. But... That is the point of this test."];
+  // Use the same ranking as the title, rarity outlines, and result bars.
+  // Stable ordering also keeps tied scores consistent across the result.
+  const leadingTrait=Object.entries(s).sort((a,b)=>b[1]-a[1])[0][0];
+  const recommendations={
+    reliability:["Personal Interview Recommended","Rinmei has stopped frowning, which is already an achievement."],
+    selfControl:["Steady Head Wanted","Siu would like you to be seated beside Arya, so when saying no, he doesn't need to repeat it twice."],
+    ambition:["Rising Prospect","Ruben approves of your ambition, but he would just like to clarify that his own position is not currently available."],
+    cooperation:["Strong Group Fit","You look like someone the Wardens would actually want beside them on a mission."],
+    independence:["Specialist Candidate","Useful, capable, but Seloryn is suspicious of you. Better to go and practice an honest smile."],
+    curiosity:["Promising Wildcard","Siu is interested, but Rinmei would like several additional questions to be asked in your Personal Interview, for her own safety."],
+    honesty:["Straight Talk Welcome","Rinmei appreciates a clear answer, while Seloryn wants to hear your honest opinion about wearing sandals with socks."],
+    risk:["Arya Approved","Please note: This is not the same thing as official acceptance."],
+    ego:["Further Review Required","Your confidence arrived before your paperwork... Let's start from the first questions once again, slower this time."]
+  };
+  return recommendations[leadingTrait];
 }
 
 function getTitle(sorted){
@@ -1135,7 +1142,7 @@ const extremeNotices = {
   },
   honesty:{
     high:[
-      {special:true,lines:[["SPECIAL NOTICE","You are either remarkably straightforward or catastrophically unsuited to sect politics."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You are either remarkably straightforward or catastrophically unsuited to handle sect politics."]]},
       {special:true,lines:[["SPECIAL NOTICE","Seloryn would like you seated near her at the next group dinner. For her own entertainment."]]},
       {special:true,lines:[["SPECIAL NOTICE","Rinmei has marked your answers 'refreshingly easy to process.'"]]}
     ],
@@ -1258,24 +1265,24 @@ const comboCommentPool = [
     {lines:[["Rinmei","Low-maintenance applicants do exist... I knew it!"]]}
   ]},
   {when:s=>s.curiosity>=72&&s.selfControl>=72, comments:[
-    {lines:[["Quillian","Good. Curious enough to ask, disciplined enough not to interrupt my explanation."]]},
+    {lines:[["Quillian","Good. Curious enough to ask, disciplined enough not to interrupt my explanation. We will get along just fine."]]},
     {lines:[["Rinmei","You investigate before acting."],["Siu","See? Curiosity can be responsible."],["Rinmei","I never said it couldn't; it's just Arya and the like who are taking it too far..."]]},
     {lines:[["Seloryn","I appreciate the patience to wait for the correct answer."]]}
   ]},
   {when:s=>s.cooperation>=72&&s.independence>=72, comments:[
-    {lines:[["Siu","Interesting... Kind of. You work well with people without needing them to decide for you."]]},
-    {lines:[["Rinmei","Independent without being allergic to teamwork? I can find you some work to do..."]]},
+    {lines:[["Siu","Interesting... Kind of. You work well with people without needing them to decide for you, which Rinmei will love."]]},
+    {lines:[["Rinmei","Independent without being allergic to teamwork? I can find you something to do right away..."]]},
     {lines:[["Nokoh","You can stand alone and still choose not to. Huh."]]}
   ]},
   {when:s=>s.ego>=72&&s.reliability>=72, comments:[
-    {lines:[["Ruben","High ego and high reliability. Finally, the one who embodies perfection."],["Joren","That is literally your result."],["Ruben","Exactly. A proven model."]]},
-    {lines:[["Siu","You think highly of yourself, but at least people can count on you. Please don't change for the worst."]]},
-    {lines:[["Seloryn","Proud, but dependable. Annoying, but not as much as I would have expected.."]]}
+    {lines:[["Ruben","High ego and high reliability. Finally, the one who embodies perfection."],["Joren","That was literally your result."],["Ruben","Exactly. A proven model."]]},
+    {lines:[["Siu","You think highly of yourself, but at least people can count on you. Please don't change for the worse."]]},
+    {lines:[["Seloryn","Proud, but dependable. Annoying, but not as much as I would have expected."]]}
   ]},
   {when:s=>s.risk<=38&&s.ambition>=72, comments:[
-    {lines:[["Joren","You want to climb, but you'd prefer not to fall off the mountain. Aren't we all?"]]},
-    {lines:[["Rinmei","Ambitious without gambling everything. Make it stay that way."]]},
-    {lines:[["Quillian","Careful ambition still reaches the top. It merely takes longer."]]}
+    {lines:[["Joren","You want to climb, but you'd prefer not to fall off the mountain. You and I will be good friends."]]},
+    {lines:[["Rinmei","Ambitious without gambling everything. Make it stay that way, okay?"]]},
+    {lines:[["Quillian","Careful ambition still reaches the top, it merely takes just a bit longer."]]}
   ]},
   {when:s=>s.risk>=72&&s.reliability>=72, comments:[
     {lines:[["Siu","You'll take the dangerous mission and actually come back when you said you would. I respect that a lot."]]},
@@ -1283,12 +1290,12 @@ const comboCommentPool = [
     {lines:[["Arya","DANGEROUS AND RELIABLE! PERFECT!"],["Marly","Those words shouldn't sound good together, Big Sis."]]}
   ]},
   {when:s=>s.honesty<=38&&s.independence>=72, comments:[
-    {lines:[["Seloryn","You make your own decisions and don't necessarily explain them afterward."],["Rinmei","And we both dislike this sentence."]]},
+    {lines:[["Seloryn","You make your own decisions and don't necessarily explain them afterward... I don't know..."],["Rinmei","Yeah, please make sure it won't give us extra work."]]},
     {lines:[["Siu","Secretive and self-directed? Haaah... You can also become impossible to manage. Great..."]]},
     {lines:[["Quillian","Keep your secrets if you like. Just don't expect people to trust what they can't see..."]]}
   ]},
   {when:s=>s.selfControl<=38&&s.ego>=72, comments:[
-    {lines:[["Joren","So you react immediately and take everything personally."],["Ruben","I can have fun with that."],["Joren","That is not what I wanted to get at..."]]},
+    {lines:[["Joren","So you react immediately and take everything personally."],["Ruben","I can have fun with that."],["Joren","That is not why I brought it up..."]]},
     {lines:[["Rinmei","I am moving your room away from others and moving you away from anything expensive and breakable."]]},
     {lines:[["Siu","Pride plus impulse. Learn when to walk away before I have to teach that to you."]]}
   ]}
