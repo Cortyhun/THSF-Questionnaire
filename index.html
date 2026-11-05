@@ -158,6 +158,9 @@
     overflow:hidden;
   }
   .fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+  .fill.rarity-legendary{background:linear-gradient(90deg,#b85c12,#ff9d32)}
+  .fill.rarity-epic{background:linear-gradient(90deg,#7139b5,#b66aff)}
+  .fill.rarity-rare{background:linear-gradient(90deg,#2458ae,#4c9fff)}
   .score{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
   .summary-box{
     border-top:1px solid var(--line);
@@ -1407,7 +1410,10 @@ function showResults(){
   Object.entries(TRAITS).forEach(([k,label])=>{
     const row=document.createElement("div");
     row.className="trait-row";
-    row.innerHTML=`<div class="trait-name">${label}</div><div class="bar"><div class="fill" style="width:${s[k]}%"></div></div><div class="score">${s[k]}%</div>`;
+    const rank=sorted.findIndex(([trait])=>trait===k);
+    const rarity=["legendary","epic","rare"][rank];
+    const fillClass="fill"+(rarity?" rarity-"+rarity:"");
+    row.innerHTML=`<div class="trait-name">${label}</div><div class="bar"><div class="${fillClass}" style="width:${s[k]}%"></div></div><div class="score">${s[k]}%</div>`;
     bars.appendChild(row);
   });
 
@@ -1583,7 +1589,16 @@ function makeResultCanvas() {
       ctx.fillStyle = "#0e1112";
       ctx.fillRect(margin + 20, top + 57, contentWidth - 40, 12);
 
-      ctx.fillStyle = colors.blue;
+      if(rank < 3){
+        const gradient=ctx.createLinearGradient(
+          margin+20,0,margin+20+(contentWidth-40)*score/100,0
+        );
+        gradient.addColorStop(0,["#b85c12","#7139b5","#2458ae"][rank]);
+        gradient.addColorStop(1,rarityColors[rank]);
+        ctx.fillStyle=gradient;
+      }else{
+        ctx.fillStyle=colors.blue;
+      }
       ctx.fillRect(
         margin + 20,
         top + 57,
