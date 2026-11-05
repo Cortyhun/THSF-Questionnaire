@@ -194,11 +194,11 @@
     <div class="eyebrow">Hollow Song · Spirit Wardens</div>
     <h1>Recruitment Assessment</h1>
     <div class="intro">
-      Thirty-seven questions. Nine traits. No cultivation rank, affinity, or Paragon position can answer them for you.
-      Choose what you would actually do—not what you think Siu, Rinmei, or an Elder would want to hear.
+      Thirty-seven questions, where your cultivation rank, affinity, or Paragon position doesn't matter. They can't answer them for you.
+      Choose what you would actually do; your honesty is the first step to becoming a Warden.
     </div>
-    <div class="quote">“There are no correct answers. Trying to determine what we want you to answer may itself be informative.” — Rinmei</div>
-    <div class="notice">For fun only. This is an in-world personality quiz, not a clinical or validated psychological assessment.</div>
+    <div class="quote">“Do not try to find a correct answer; there isn't one.” — Wardens</div>
+    <div class="notice">This is not an assessment from the Elders.</div>
     <div class="progress-shell"><div class="progress" id="progress"></div></div>
     <div class="counter" id="counter">Question 1 of 37</div>
   </header>
@@ -262,40 +262,40 @@ const TRAITS = {
 
 const traitDescriptions = {
   reliability: {
-    high:"Once you commit, people can build plans around you. You value follow-through, duty, and being someone others can count on.",
-    low:"You resist being chained to obligations and prefer flexibility. Useful in changing situations, dangerous if others assume you will always stay the course."
+    high:"Once you commit, people around you can build plans, counting on your presence. You value follow-through, duty, and being someone others can count on.",
+    low:"You resist being chained to obligations and prefer flexibility. Useful in changing situations, but dangerous if others assume you will stay on course."
   },
   selfControl: {
     high:"You tend to hold your reactions in reserve, think before acting, and stay functional under pressure.",
-    low:"You act quickly and emotionally. That can become recklessness—or decisive speed when everyone else freezes."
+    low:"You act quickly and emotionally. That can become recklessness, or the decisive speed when everyone else freezes."
   },
   ambition: {
-    high:"You want to rise, improve, and reach places others may consider excessive. Stagnation bothers you.",
-    low:"Status alone does not motivate you much. You are more likely to value stability, usefulness, or personal satisfaction over rank."
+    high:"You want to rise, improve, and reach places others may consider impossible. Stagnation bothers you.",
+    low:"Status alone does not motivate you much. You are more likely to value stability, usefulness, and personal satisfaction over rank."
   },
   cooperation: {
-    high:"You naturally think in terms of teams, shared burdens, and keeping a group functional.",
-    low:"You do not need consensus to act. You may be difficult to coordinate, but also hard to pressure into following a bad crowd."
+    high:"You naturally think in terms of teams, shared burdens, and rewards. You are focused on keeping a group functional.",
+    low:"You do not wait for a consensus to act. You may be difficult to work with, but also hard to pressure into following a bad crowd."
   },
   independence: {
     high:"You prefer owning your decisions and solving problems without waiting for permission or rescue.",
-    low:"You are comfortable relying on trusted people and functioning as part of a tightly connected group."
+    low:"You are comfortable relying on people and functioning as part of a tightly connected group."
   },
   curiosity: {
     high:"Unknown techniques, strange ruins, unusual beasts, and unanswered questions pull at you dangerously hard.",
-    low:"You prefer useful answers over endless investigation. If something works, you may not care how elegant the explanation is."
+    low:"You prefer straight answers over endless investigation. If something works, you may not care how it does it as long as the answer is: It just works."
   },
   honesty: {
-    high:"You prefer directness, clear agreements, and saying what you actually mean—even when it costs you.",
-    low:"You are comfortable withholding, redirecting, or reshaping the truth when circumstances demand it."
+    high:"You prefer directness, clear statements, and saying what you actually mean, even when it costs you.",
+    low:"You are comfortable withholding, redirecting, or changing the truth when circumstances demand it. It is still your truth, after all."
   },
   risk: {
     high:"You are willing to accept serious danger for meaningful gains. Whether that is courage or insanity depends on the day.",
-    low:"You prefer survivable plans, controlled exposure, and knowing where the exits are before entering."
+    low:"You prefer survivable plans, controlled exposure, and knowing where the exits are before entering a place."
   },
   ego: {
-    high:"You care about status, respect, competence, and how others perceive your place in a hierarchy.",
-    low:"You are less concerned with being seen as important. Recognition matters less than the outcome—or at least that is what you tell yourself."
+    high:"You care about status, respect, competence, and how others perceive your place in every and all situations.",
+    low:"You are less concerned with being seen as important. Recognition matters less than the outcome. Or at least that is what you tell yourself."
   }
 };
 
@@ -311,17 +311,17 @@ const questions = [
  ]
 },
 {
- q:"You can take one of two missions. One offers exceptional personal rewards. The other offers average rewards but teaches something valuable to the Wardens. Which do you choose?",
+ q:"You have been sent on a mission where you were given a reward unrelated to the mission. What do you do with it?",
  a:[
-  ["The personal reward. Growth gives me more to contribute later.",{ambition:2,independence:1}],
-  ["The group-benefit mission. Knowledge compounds.",{cooperation:2,curiosity:1,reliability:1}],
-  ["Whichever is more dangerous.",{risk:2,curiosity:1}],
-  ["Whichever fills a weakness I personally have.",{ambition:1,independence:2}],
-  ["I would ask which mission the Wardens actually need covered.",{reliability:2,cooperation:2}]
+  ["It's my personal reward. It's mine.",{ambition:2,independence:1}],
+  ["Share it, it was a group effort.",{cooperation:2,curiosity:1,reliability:1}],
+  ["Make sure nobody knows I got my own award.",{cooperation:-2,ego:2}],
+  ["Report it after getting back and exchanging it for something else.",{ambition:1,cooperation:2}],
+  ["Refuse it. I don't trust surprise rewards.",{ego:-2,curiosity:-2}]
  ]
 },
 {
- q:"You learn that another member broke a minor association rule. Nobody was harmed and nobody else knows.",
+ q:"You learn that another member broke a minor association rule. Nobody was harmed, and nobody else knows.",
  a:[
   ["Ignore it.",{independence:1,reliability:-1}],
   ["Warn them privately.",{cooperation:2,selfControl:1}],
@@ -371,7 +371,7 @@ const questions = [
  ]
 },
 {
- q:"Which failure would bother you longest?",
+ q:"Which failure would bother you the longest?",
  a:[
   ["Failing because I was too cautious.",{risk:1,ambition:2}],
   ["Failing because I rushed.",{selfControl:2,risk:-1}],
@@ -461,7 +461,7 @@ const questions = [
  ]
 },
 {
- q:"A mission changes halfway through and the original plan is no longer useful.",
+ q:"A mission changes halfway through, and the original plan is no longer useful.",
  a:[
   ["Stick close to the plan until the leader changes it.",{reliability:2,independence:-1}],
   ["Adapt immediately.",{independence:2,risk:1}],
@@ -744,18 +744,18 @@ function band(score){
 
 function getVerdict(s){
   const rel=s.reliability, sc=s.selfControl, coop=s.cooperation, risk=s.risk, ego=s.ego, cur=s.curiosity, ind=s.independence;
-  if(rel>=68 && sc>=60) return ["Interview Recommended","Rinmei has stopped frowning. That is already an achievement."];
-  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested. Rinmei would like several additional safeguards."];
-  if(ind>=76 && coop<42) return ["Specialist Candidate","Useful, capable, and possibly allergic to meetings."];
-  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork."];
-  if(coop>=72 && rel>=60) return ["Strong Group Fit","You look like someone people would actually want beside them on a mission."];
-  if(risk>=80 && sc<40) return ["Arya Approved","This is not the same thing as official acceptance."];
-  return ["Interview Recommended","Interesting enough to talk to. That is the point of the test."];
+  if(rel>=68 && sc>=60) return ["Interview Recommended","Rinmei has stopped frowning, which is already an achievement."];
+  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested, but Rinmei would like several additional safeguards."];
+  if(ind>=76 && coop<42) return ["Specialist Candidate","Useful, capable, but Seloryn is suspicious of you."];
+  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork..."];
+  if(coop>=72 && rel>=60) return ["Strong Group Fit","You look like someone the Wardens would actually want beside them on a mission."];
+  if(risk>=80 && sc<40) return ["Arya Approved","Please note: This is not the same thing as official acceptance."];
+  return ["Interview Recommended","Interesting enough to talk to. But... That is the point of this test."];
 }
 
 function getTitle(sorted){
   const [a,b,c]=sorted.slice(0,3).map(x=>x[0]);
-  const names={reliability:"Steady Hand",selfControl:"Cold Mind",ambition:"Climber",cooperation:"Bondkeeper",independence:"Lone Blade",curiosity:"Seeker",honesty:"Straight Tongue",risk:"Storm-Chaser",ego:"Proud Banner"};
+  const names={reliability:"Steady Hands",selfControl:"Stone-cold Mind",ambition:"Every Opportunity Matters",cooperation:"Team Player",independence:"Solo Leveling",curiosity:"Bookworm",honesty:"The Truth Hurts",risk:"Storm-Chaser",ego:"Always #1"};
   return `${names[a]} · ${names[b]} · ${names[c]}`;
 }
 
