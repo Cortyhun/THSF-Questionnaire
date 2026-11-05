@@ -194,6 +194,9 @@
     background:#151a1c;
     padding:14px;
   }
+  .trait-note.rarity-legendary{border:2px solid #ff9d32;padding:13px}
+  .trait-note.rarity-epic{border:2px solid #b66aff;padding:13px}
+  .trait-note.rarity-rare{border:2px solid #4c9fff;padding:13px}
   .trait-note strong{color:var(--accent2)}
   .small{font-size:.9rem;color:var(--muted)}
   footer{margin-top:18px;color:#857f75;font-size:.85rem;text-align:center}
@@ -818,7 +821,19 @@ function calculateScores(){
     const normalized=50 + (raw[t] / maxAbs) * 50;
     pct[t]=Math.max(0,Math.min(100,Math.round(normalized)));
   });
-  return pct;
+  return boostLeadingTraits(pct);
+}
+
+// Final personality emphasis, applied once after linked-answer scoring.
+// All result consumers (bars, descriptions, dialogue, copy) use these scores.
+function boostLeadingTraits(scores){
+  const result={...scores};
+  const leaders=Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const multipliers=[1.4,1.3,1.2];
+  leaders.forEach(([trait,score],rank)=>{
+    result[trait]=Math.min(100,Math.round(score*multipliers[rank]));
+  });
+  return result;
 }
 
 function band(score){
@@ -1400,14 +1415,19 @@ function showResults(){
 
   const notes=document.getElementById("traitNotes");
   notes.innerHTML="";
-  sorted.forEach(([k,v])=>{
+  sorted.forEach(([k,v],rank)=>{
     const b=band(v);
     let text;
     if(b==="high") text=traitDescriptions[k].high;
     else if(b==="low") text=traitDescriptions[k].low;
     else text=`You sit near the middle here. You can lean either way depending on circumstances, which may make you harder to predict than an extreme score.`;
     const div=document.createElement("div");
-    div.className="trait-note";
+    const rarity=["legendary","epic","rare"][rank];
+    div.className="trait-note"+(rarity?" rarity-"+rarity:"");
+    if(rarity){
+      div.title=rarity[0].toUpperCase()+rarity.slice(1);
+      div.setAttribute("aria-label",`${TRAITS[k]}: ${v}%, ${rarity}`);
+    }
     div.innerHTML=`<strong>${TRAITS[k]} — ${v}%</strong><div class="small" style="margin-top:6px">${text}</div>`;
     notes.appendChild(div);
   });
