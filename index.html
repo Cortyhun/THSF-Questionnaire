@@ -215,11 +215,11 @@
     <div class="eyebrow">Hollow Song · Spirit Wardens</div>
     <h1>Recruitment Assessment</h1>
     <div class="intro">
-      Thirty-seven questions, where your cultivation rank, affinity, or Paragon position doesn't matter. They can't answer them for you.
-      Choose what you would actually do; your honesty is the first step to becoming a Warden.
+      Thirty-seven questions where your cultivation stage, affinity, or Paragon rank doesn't matter. They can't answer them for you.
+      Choose what you would actually do; your honesty is the first step to becoming a Warden. We will know if you are lying.
     </div>
-    <div class="quote">“Do not try to find a correct answer; there isn't one.” — Wardens</div>
-    <div class="notice">Note: This is not an assessment from the Elders.</div>
+    <div class="quote">“Do not try to find a correct answer; there isn't one.” — Warden Rinmei</div>
+    <div class="notice">"Note: This is not an assessment from the Elders." — Elder Quillian</div>
     <div class="progress-shell"><div class="progress" id="progress"></div></div>
     <div class="counter" id="counter">Question 1 of 37</div>
   </header>
@@ -258,7 +258,7 @@
 
       <div class="commentary-box">
         <h3>Warden Commentary</h3>
-        <div class="commentary-intro">The Wardens have opinions and unfortunately, several of them have more than one.</div>
+        <div class="commentary-intro">The Wardens have opinions, and unfortunately, several of them have more than one.</div>
         <div class="character-comments" id="characterComments"></div>
       </div>
 
@@ -340,7 +340,7 @@ const questions = [
 {
  q:"After completing a group mission, the client privately gives you an additional personal reward that was never part of the agreement. The others don't know about it. What do you do?",
  a:[
-  ["It's a personal reward given directly to me. I keep it.",{independence:5,ambition:3,ego:2,cooperation:-3}],
+  ["It's a personal reward given directly to me. I keep it, but tell the others why.",{independence:5,ambition:3,ego:2,cooperation:-2}],
   ["Tell the others and share it. The mission was a group effort.",{cooperation:5,reliability:3,honesty:3,ego:-3,independence:-2}],
   ["Keep it and make sure nobody learns I received anything extra.",{honesty:-5,cooperation:-4,ego:4,independence:3,reliability:-2}],
   ["Report it to the Wardens first, then decide together what to do with it.",{cooperation:5,reliability:4,honesty:4,selfControl:3,independence:-2}],
@@ -844,13 +844,13 @@ function band(score){
 
 function getVerdict(s){
   const rel=s.reliability, sc=s.selfControl, coop=s.cooperation, risk=s.risk, ego=s.ego, cur=s.curiosity, ind=s.independence;
-  if(rel>=68 && sc>=60) return ["Interview Recommended","Rinmei has stopped frowning, which is already an achievement."];
-  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested, but Rinmei would like several additional questions to be asked."];
-  if(ind>=76 && coop<42) return ["Specialist Candidate","Useful, capable, but Seloryn is suspicious of you."];
-  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork... Let's start from the first questions, slower this time."];
+  if(rel>=68 && sc>=60) return ["Personal Interview Recommended","Rinmei has stopped frowning, which is already an achievement."];
+  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested, but Rinmei would like several additional questions to be asked in your Personal Interview."];
+  if(ind>=76 && coop<42) return ["Specialist Candidate","Useful, capable, but Seloryn is suspicious of you. Better to go and practice an honest smile."];
+  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork... Let's start from the first questions once again, slower this time."];
   if(coop>=72 && rel>=60) return ["Strong Group Fit","You look like someone the Wardens would actually want beside them on a mission."];
   if(risk>=80 && sc<40) return ["Arya Approved","Please note: This is not the same thing as official acceptance."];
-  return ["Interview Recommended","Interesting enough to talk to. But... That is the point of this test."];
+  return ["Personal Interview Recommended","Interesting enough to talk to. But... That is the point of this test."];
 }
 
 function getTitle(sorted){
@@ -880,12 +880,12 @@ function shuffleCopy(arr){
 }
 
 const neutralCommentPool = [
-  {lines:[["Rinmei","Nothing here is screaming at me, which is probably a good sign."],["Siu","Or they're just good at hiding it."],["Rinmei","Why do you always make my work harder?"]]},
+  {lines:[["Rinmei","Nothing here is screaming at me as dangerous, which is probably a good sign."],["Siu","Or they're just good at hiding it."],["Rinmei","Why do you always try to make my work harder?"]]},
   {lines:[["Seloryn","Balanced."],["Ruben","That sounds suspiciously like 'not exceptional.' Bah..."],["Seloryn","Only you could be offended by somebody else's result."]]},
-  {lines:[["Siu","Hard to read."],["Nokoh","That can be useful."],["Siu","Exactly."]]},
-  {lines:[["Bren","Average doesn't mean useless."],["Joren","For once, Bren said something encouraging."],["Bren","I didn't mean it that way."]]},
-  {lines:[["Marly","*They seem nice.*"],["Arya","BORING! WHERE'S THE DANGER?!"],["Marly","Danger is bad..."]]},
-  {lines:[["Quillian","No obvious disaster... Hm... Suspicious."],["Siu","You still act like an old man."],["Quillian","I heard that, boy!"]]}
+  {lines:[["Siu","This one is pretty hard to read."],["Nokoh","That can be useful in some missions."],["Siu","Hm... That's true."]]},
+  {lines:[["Bren","Average doesn't mean useless."],["Joren","For once, Bren said something encouraging. Did anyone else hear that?!"],["Bren","I didn't mean it that way..."]]},
+  {lines:[["Marly","They seem nice."],["Arya","BORING! WHERE'S THE DANGER?! THE FUN?!"],["Marly","Danger is not fun..."]]},
+  {lines:[["Quillian","No obvious disaster... Hm... Why does that feel suspicious?"],["Siu","You still act like an old man."],["Quillian","I heard that, boy!"]]}
 ];
 
 const traitCommentPools = {
@@ -893,9 +893,9 @@ const traitCommentPools = {
     high:[
       {lines:[["Rinmei","Good. If you say you'll be there, I can actually believe it."]]},
       {lines:[["Siu","Reliable people are underrated right up until everyone needs one."]]},
-      {lines:[["Marly","You keep promises? I like you already."]]},
+      {lines:[["Marly","You keep your promises? I like you already."]]},
       {lines:[["Bren","You show up and finish things. Fine by me."]]},
-      {lines:[["Nokoh","Consistency wins more missions than flashy techniques."]]},
+      {lines:[["Nokoh","Consistency is the best when going on a group mission."]]},
       {lines:[["Quillian","Dependable? Good. Maybe somebody around here can finish paperwork without forgetting it."]]}
     ],
     low:[
@@ -1166,7 +1166,7 @@ const extremeNotices = {
 
 const comboCommentPool = [
   {when:s=>s.risk>=72&&s.selfControl>=72, comments:[
-    {lines:[["Siu","See? High risk and high self-control. Calculated."],["Rinmei","Calculated danger is still danger."],["Siu","But he can plan around it."],["Rinmei","You are not helping here. Go away."]]},
+    {lines:[["Siu","See? High risk and high self-control. It works."],["Rinmei","Calculated danger is still danger."],["Siu","But he can plan around it."],["Rinmei","You are not helping here. Go away."]]},
     {lines:[["Seloryn","You think before doing something dangerous."],["Quillian","Which merely means they have time to understand exactly how stupid it is."]]},
     {lines:[["Ruben","Bold and controlled. Excellent."],["Joren","You just like the bold part."],["Ruben","And?"]]}
   ]},
@@ -1294,10 +1294,10 @@ function makeAssessmentText(s,sorted){
   const templates=[
     `Your profile leans most strongly toward ${top[0]}, ${top[1]}, and ${top[2]}. ${low[0]} and ${low[1]} influence you less. The Wardens would expect those strengths to show most clearly when pressure forces you to choose quickly.`,
     `${top[0]} stands out first, followed by ${top[1]} and ${top[2]}. You are much less driven by ${low[0]} and ${low[1]}. Whether that makes you easy or terrifying to work with depends heavily on the mission.`,
-    `If the Wardens had to summarize you from this sheet alone, they would start with ${top[0]}, ${top[1]}, and ${top[2]}. Your lower ${low[0]} and ${low[1]} scores suggest that you solve problems from a noticeably different angle than someone who values those traits highly.`,
-    `The clearest pattern here is ${top[0]} backed by ${top[1]} and ${top[2]}. ${low[0]} and ${low[1]} sit at the other end of your profile. None of that is automatically good or bad; it tells the Wardens what kind of trouble they should prepare for.`,
+    `If the Wardens had to summarize you from this sheet alone, they would start with ${top[0]}, ${top[1]}, and ${top[2]}. Your lower ${low[0]} and ${low[1]} scores suggest that you solve problems from a noticeably different angle than someone who values those traits.`,
+    `The clearest pattern here is ${top[0]} backed by ${top[1]} and ${top[2]}. ${low[0]} and ${low[1]} sit at the other end of your profile. None of that is automatically good or bad; it tells the Wardens what kind of trouble they should prepare for with you around.`,
     `You consistently favor choices associated with ${top[0]}, ${top[1]}, and ${top[2]}. By comparison, ${low[0]} and ${low[1]} rarely decide your answers. Rinmei would call this useful information. Arya would call it far too many numbers.`,
-    `Your answers paint a fairly clear picture: strong ${top[0]}, notable ${top[1]}, and plenty of ${top[2]}. ${low[0]} and ${low[1]} are much quieter in your decisions. The interesting part is not any single score, but what happens when those traits collide.`
+    `Your answers paint a fairly clear picture: strong ${top[0]}, notable ${top[1]}, and plenty of ${top[2]}. ${low[0]} and ${low[1]} are much quieter in your decisions. The interesting part is not any single score, but what happens when those traits clash.`
   ];
   return randomPick(templates);
 }
