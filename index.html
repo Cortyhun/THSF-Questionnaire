@@ -165,6 +165,24 @@
     margin-top:18px;
   }
   .summary-box h3{margin:.2rem 0 .7rem;color:var(--accent)}
+  .commentary-box{
+    border-top:1px solid var(--line);
+    padding-top:20px;
+    margin-top:22px;
+  }
+  .commentary-box h3{margin:.2rem 0 .45rem;color:var(--accent)}
+  .commentary-intro{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+  .character-comments{display:grid;gap:10px}
+  .character-comment{
+    border:1px solid var(--line);
+    background:#14191b;
+    padding:14px 16px;
+    border-left:3px solid var(--accent2);
+  }
+  .character-comment.special{border-left-color:var(--accent);background:rgba(214,181,109,.055)}
+  .speaker{font-weight:bold;color:var(--accent2);margin-right:.35rem}
+  .character-comment.special .speaker{color:var(--accent)}
+  .dialogue-line + .dialogue-line{margin-top:7px}
   .traits-grid{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -198,7 +216,7 @@
       Choose what you would actually do; your honesty is the first step to becoming a Warden.
     </div>
     <div class="quote">“Do not try to find a correct answer; there isn't one.” — Wardens</div>
-    <div class="notice">This is not an assessment from the Elders.</div>
+    <div class="notice">Note: This is not an assessment from the Elders.</div>
     <div class="progress-shell"><div class="progress" id="progress"></div></div>
     <div class="counter" id="counter">Question 1 of 37</div>
   </header>
@@ -235,6 +253,12 @@
         <div id="strongest"></div>
       </div>
 
+      <div class="commentary-box">
+        <h3>Warden Commentary</h3>
+        <div class="commentary-intro">The Wardens have opinions and unfortunately, several of them have more than one.</div>
+        <div class="character-comments" id="characterComments"></div>
+      </div>
+
       <div class="traits-grid" id="traitNotes"></div>
 
       <div class="nav" style="margin-top:26px">
@@ -244,7 +268,7 @@
     </section>
   </main>
 
-  <footer>Fan extra for <em>The Heavens Shall Fall</em> · Spirit Wardens Recruitment Assessment</footer>
+  <footer>Made for the fans of <em>The Heavens Shall Fall</em> · Spirit Wardens Recruitment Assessment</footer>
 </div>
 
 <script>
@@ -267,7 +291,7 @@ const traitDescriptions = {
   },
   selfControl: {
     high:"You tend to hold your reactions in reserve, think before acting, and stay functional under pressure.",
-    low:"You act quickly and emotionally. That can become recklessness, or the decisive speed when everyone else freezes."
+    low:"You act quickly and emotionally. That can become recklessness—or decisive speed when everyone else freezes."
   },
   ambition: {
     high:"You want to rise, improve, and reach places others may consider impossible. Stagnation bothers you.",
@@ -294,7 +318,7 @@ const traitDescriptions = {
     low:"You prefer survivable plans, controlled exposure, and knowing where the exits are before entering a place."
   },
   ego: {
-    high:"You care about status, respect, competence, and how others perceive your place in every and all situations.",
+    high:"You care about status, respect, competence, and how others perceive your place in almost every situation.",
     low:"You are less concerned with being seen as important. Recognition matters less than the outcome. Or at least that is what you tell yourself."
   }
 };
@@ -303,371 +327,371 @@ const questions = [
 {
  q:"A fellow Warden publicly blames you for a mission mistake that was partly their fault. What bothers you most?",
  a:[
-  ["That they insulted me in front of everyone.",{ego:2,selfControl:-1}],
-  ["That other people saw the disagreement.",{ego:1,cooperation:1}],
-  ["That the mistake happened at all.",{reliability:2,ego:-1}],
-  ["That they blamed me instead of helping solve it.",{cooperation:2,reliability:1}],
-  ["That the argument damaged the Wardens' reputation.",{cooperation:1,ambition:1,ego:1}]
+  ["That they insulted me in front of everyone.",{ego:5,selfControl:-3}],
+  ["That other people saw the disagreement.",{ego:3,cooperation:3}],
+  ["That the mistake happened at all.",{reliability:5,ego:-3}],
+  ["That they blamed me instead of helping solve it.",{cooperation:5,reliability:3}],
+  ["That the argument damaged the Wardens' reputation.",{cooperation:3,ambition:3,ego:3}]
  ]
 },
 {
- q:"You have been sent on a mission where you were given a reward unrelated to the mission. What do you do with it?",
+ q:"After completing a group mission, the client privately gives you an additional personal reward that was never part of the agreement. The others don't know about it. What do you do?",
  a:[
-  ["It's my personal reward. It's mine.",{ambition:2,independence:1}],
-  ["Share it, it was a group effort.",{cooperation:2,curiosity:1,reliability:1}],
-  ["Make sure nobody knows I got my own award.",{cooperation:-2,ego:2}],
-  ["Report it after getting back and exchanging it for something else.",{ambition:1,cooperation:2}],
-  ["Refuse it. I don't trust surprise rewards.",{ego:-2,curiosity:-2}]
+  ["It's a personal reward given directly to me. I keep it.",{independence:5,ambition:3,ego:2,cooperation:-3}],
+  ["Tell the others and share it. The mission was a group effort.",{cooperation:5,reliability:3,honesty:3,ego:-3,independence:-2}],
+  ["Keep it and make sure nobody learns I received anything extra.",{honesty:-5,cooperation:-4,ego:4,independence:3,reliability:-2}],
+  ["Report it to the Wardens first, then decide together what to do with it.",{cooperation:5,reliability:4,honesty:4,selfControl:3,independence:-2}],
+  ["Refuse it. An unexpected private reward feels suspicious.",{risk:-5,selfControl:5,curiosity:-2,ambition:-2,ego:-1}]
  ]
 },
 {
  q:"You learn that another member broke a minor association rule. Nobody was harmed, and nobody else knows.",
  a:[
-  ["Ignore it.",{independence:1,reliability:-1}],
-  ["Warn them privately.",{cooperation:2,selfControl:1}],
-  ["Report it.",{reliability:2,honesty:1}],
-  ["Ask why they did it before deciding.",{curiosity:2,selfControl:1}],
-  ["Fix the record quietly and move on.",{independence:2,honesty:-2,reliability:1}]
+  ["Ignore it.",{independence:3,reliability:-3}],
+  ["Warn them privately.",{cooperation:5,selfControl:3}],
+  ["Report it.",{reliability:5,honesty:3}],
+  ["Ask why they did it before deciding.",{curiosity:5,selfControl:3}],
+  ["Fix the record quietly and move on.",{independence:5,honesty:-5,reliability:3}]
  ]
 },
 {
  q:"A newly promoted disciple challenges your authority in front of others.",
  a:[
-  ["Put them in their place immediately.",{ego:2,selfControl:-1}],
-  ["Ask them to explain their objection.",{selfControl:2,cooperation:1,curiosity:1}],
-  ["Ignore the challenge unless it affects the work.",{ego:-2,selfControl:1}],
-  ["Invite them to prove they can do better.",{risk:1,ambition:1,ego:1}],
-  ["Speak privately afterward.",{cooperation:2,selfControl:2}]
+  ["Put them in their place immediately.",{ego:5,selfControl:-3}],
+  ["Ask them to explain their objection.",{selfControl:5,cooperation:3,curiosity:3}],
+  ["Ignore the challenge unless it affects the work.",{ego:-5,selfControl:3}],
+  ["Invite them to prove they can do better.",{risk:3,ambition:3,ego:3}],
+  ["Speak privately afterward.",{cooperation:5,selfControl:5}]
  ]
 },
 {
  q:"You enter an ancient ruin and find a formation nobody recognizes.",
  a:[
-  ["Do not touch anything until someone qualified arrives.",{risk:-2,reliability:2}],
-  ["Study it from a safe distance.",{curiosity:2,selfControl:2}],
-  ["Test it with the smallest possible input.",{curiosity:2,risk:1,selfControl:1}],
-  ["Someone has to activate it eventually.",{risk:2,curiosity:1}],
-  ["Mark the location and leave. The mission comes first.",{reliability:2,curiosity:-1}]
+  ["Do not touch anything until someone qualified arrives.",{risk:-5,reliability:5}],
+  ["Study it from a safe distance.",{curiosity:5,selfControl:5}],
+  ["Test it with the smallest possible input.",{curiosity:5,risk:3,selfControl:3}],
+  ["Someone has to activate it eventually.",{risk:5,curiosity:3}],
+  ["Mark the location and leave. The mission comes first.",{reliability:5,curiosity:-3}]
  ]
 },
 {
  q:"An Elder gives you a lawful order you believe is a bad idea.",
  a:[
-  ["Obey first. Question it afterward.",{reliability:2,selfControl:1,independence:-1}],
-  ["Question it respectfully before acting.",{independence:1,honesty:2,selfControl:1}],
-  ["Refuse if I think the consequences are serious enough.",{independence:2,risk:1,reliability:-1}],
-  ["Find a way to obey the wording without following the intent.",{honesty:-2,independence:2,curiosity:1}],
-  ["Ask others whether I am missing something.",{cooperation:2,ego:-1}]
+  ["Obey first. Question it afterward.",{reliability:5,selfControl:3,independence:-3}],
+  ["Question it respectfully before acting.",{independence:3,honesty:5,selfControl:3}],
+  ["Refuse if I think the consequences are serious enough.",{independence:5,risk:3,reliability:-3}],
+  ["Find a way to obey the wording without following the intent.",{honesty:-5,independence:5,curiosity:3}],
+  ["Ask others whether I am missing something.",{cooperation:5,ego:-3}]
  ]
 },
 {
  q:"You find a valuable crystal on an empty road with no obvious owner.",
  a:[
-  ["Turn it in immediately.",{honesty:2,reliability:1}],
-  ["Ask around first, then keep it if nobody claims it.",{honesty:1,curiosity:1}],
-  ["Keep it. Opportunity is opportunity.",{independence:1,honesty:-2,ambition:1}],
-  ["Leave it where it is. It could be bait.",{risk:-2,selfControl:1}],
-  ["Inspect it for traps before deciding.",{curiosity:2,selfControl:1}]
+  ["Turn it in immediately.",{honesty:5,reliability:3}],
+  ["Ask around first, then keep it if nobody claims it.",{honesty:3,curiosity:3}],
+  ["Keep it. Opportunity is opportunity.",{independence:3,honesty:-5,ambition:3}],
+  ["Leave it where it is. It could be bait.",{risk:-5,selfControl:3}],
+  ["Inspect it for traps before deciding.",{curiosity:5,selfControl:3}]
  ]
 },
 {
  q:"Which failure would bother you the longest?",
  a:[
-  ["Failing because I was too cautious.",{risk:1,ambition:2}],
-  ["Failing because I rushed.",{selfControl:2,risk:-1}],
-  ["Failing people who relied on me.",{reliability:2,cooperation:2}],
-  ["Being publicly humiliated.",{ego:2}],
-  ["Not understanding why I failed.",{curiosity:2}]
+  ["Failing because I was too cautious.",{risk:3,ambition:5}],
+  ["Failing because I rushed.",{selfControl:5,risk:-3}],
+  ["Failing people who relied on me.",{reliability:5,cooperation:5}],
+  ["Being publicly humiliated.",{ego:5}],
+  ["Not understanding why I failed.",{curiosity:5}]
  ]
 },
 {
  q:"A teammate you dislike is injured during a dangerous retreat.",
  a:[
-  ["Help them. Personal feelings are irrelevant.",{reliability:2,selfControl:2}],
-  ["Help if doing so does not endanger everyone else.",{selfControl:2,cooperation:1,risk:-1}],
-  ["Help, even if it puts me at serious risk.",{cooperation:2,risk:2}],
-  ["They chose their path. I keep moving.",{independence:2,cooperation:-2}],
-  ["I decide based on why I dislike them.",{curiosity:1,selfControl:1,honesty:1}]
+  ["Help them. Personal feelings are irrelevant.",{reliability:5,selfControl:5}],
+  ["Help if doing so does not endanger everyone else.",{selfControl:5,cooperation:3,risk:-3}],
+  ["Help, even if it puts me at serious risk.",{cooperation:5,risk:5}],
+  ["They chose their path. I keep moving.",{independence:5,cooperation:-5}],
+  ["I decide based on why I dislike them.",{curiosity:3,selfControl:3,honesty:3}]
  ]
 },
 {
  q:"You are offered public credit for a shared victory or a larger private reward nobody else will know about.",
  a:[
-  ["Public credit.",{ego:2,ambition:1}],
-  ["Private reward.",{ambition:2,ego:-1}],
-  ["Split the reward with the team.",{cooperation:2,ego:-1}],
-  ["Whichever helps me advance faster.",{ambition:2,independence:1}],
-  ["I would rather the record state exactly who did what.",{honesty:2,reliability:1}]
+  ["Public credit.",{ego:5,ambition:3}],
+  ["Private reward.",{ambition:5,ego:-3}],
+  ["Split the reward with the team.",{cooperation:5,ego:-3}],
+  ["Whichever helps me advance faster.",{ambition:5,independence:3}],
+  ["I would rather the record state exactly who did what.",{honesty:5,reliability:3}]
  ]
 },
 {
  q:"How do you prefer to learn a new technique?",
  a:[
-  ["Master the basics exactly as taught.",{reliability:1,selfControl:2,curiosity:-1}],
-  ["Understand why every part works.",{curiosity:2,selfControl:1}],
-  ["Try it, break it, rebuild it.",{curiosity:2,risk:1}],
-  ["Watch someone skilled and imitate the result.",{independence:1,curiosity:1}],
-  ["Practice with others and compare methods.",{cooperation:2,curiosity:1}]
+  ["Master the basics exactly as taught.",{reliability:3,selfControl:5,curiosity:-3}],
+  ["Understand why every part works.",{curiosity:5,selfControl:3}],
+  ["Try it, break it, rebuild it.",{curiosity:5,risk:3}],
+  ["Watch someone skilled and imitate the result.",{independence:3,curiosity:3}],
+  ["Practice with others and compare methods.",{cooperation:5,curiosity:3}]
  ]
 },
 {
  q:"Someone offers you a shortcut to advancement that is legal, effective, and socially frowned upon.",
  a:[
-  ["Take it. Results matter.",{ambition:2,ego:-1}],
-  ["Refuse. Reputation matters too.",{ego:1,reliability:1}],
-  ["Investigate the hidden cost first.",{curiosity:2,selfControl:2}],
-  ["Ask people I trust what they think.",{cooperation:2,independence:-1}],
-  ["If the only downside is gossip, I take it.",{independence:2,ego:-1,ambition:1}]
+  ["Take it. Results matter.",{ambition:5,ego:-3}],
+  ["Refuse. Reputation matters too.",{ego:3,reliability:3}],
+  ["Investigate the hidden cost first.",{curiosity:5,selfControl:5}],
+  ["Ask people I trust what they think.",{cooperation:5,independence:-3}],
+  ["If the only downside is gossip, I take it.",{independence:5,ego:-3,ambition:3}]
  ]
 },
 {
  q:"During a group mission, the appointed leader freezes.",
  a:[
-  ["Take command immediately.",{independence:2,ambition:1,risk:1}],
-  ["Give them one clear prompt and see if they recover.",{cooperation:2,selfControl:2}],
-  ["Follow the plan unless it clearly fails.",{reliability:2,selfControl:1}],
-  ["Ask the group for the fastest consensus.",{cooperation:2,risk:-1}],
-  ["Do what I think is necessary without announcing leadership.",{independence:2,ego:-1}]
+  ["Take command immediately.",{independence:5,ambition:3,risk:3}],
+  ["Give them one clear prompt and see if they recover.",{cooperation:5,selfControl:5}],
+  ["Follow the plan unless it clearly fails.",{reliability:5,selfControl:3}],
+  ["Ask the group for the fastest consensus.",{cooperation:5,risk:-3}],
+  ["Do what I think is necessary without announcing leadership.",{independence:5,ego:-3}]
  ]
 },
 {
  q:"A rival association mocks the Spirit Wardens after a public loss.",
  a:[
-  ["Challenge them.",{ego:2,risk:2}],
-  ["Ignore them.",{selfControl:2,ego:-2}],
-  ["Use it as motivation and answer later with results.",{ambition:2,selfControl:2}],
-  ["Mock them back.",{ego:1,selfControl:-1,cooperation:-1}],
-  ["Find out why the loss happened before worrying about insults.",{curiosity:2,reliability:1}]
+  ["Challenge them.",{ego:5,risk:5}],
+  ["Ignore them.",{selfControl:5,ego:-5}],
+  ["Use it as motivation and answer later with results.",{ambition:5,selfControl:5}],
+  ["Mock them back.",{ego:3,selfControl:-3,cooperation:-3}],
+  ["Find out why the loss happened before worrying about insults.",{curiosity:5,reliability:3}]
  ]
 },
 {
  q:"You discover a weakness in a friend's technique that nobody else seems to notice.",
  a:[
-  ["Tell them immediately.",{honesty:2,reliability:1}],
-  ["Wait until you can explain it tactfully.",{selfControl:2,cooperation:2}],
-  ["Test whether you are right before saying anything.",{curiosity:2,selfControl:1}],
-  ["Keep it to yourself unless it becomes dangerous.",{independence:1,honesty:-1}],
-  ["Use it against them in sparring so they learn naturally.",{risk:1,curiosity:1,cooperation:-1}]
+  ["Tell them immediately.",{honesty:5,reliability:3}],
+  ["Wait until you can explain it tactfully.",{selfControl:5,cooperation:5}],
+  ["Test whether you are right before saying anything.",{curiosity:5,selfControl:3}],
+  ["Keep it to yourself unless it becomes dangerous.",{independence:3,honesty:-3}],
+  ["Use it against them in sparring so they learn naturally.",{risk:3,curiosity:3,cooperation:-3}]
  ]
 },
 {
  q:"What sounds most satisfying?",
  a:[
-  ["Reaching a rank nobody expected me to reach.",{ambition:2,ego:1}],
-  ["Building something that still works when I am absent.",{reliability:2,cooperation:1}],
-  ["Discovering something nobody else understands.",{curiosity:2,independence:1}],
-  ["Winning a fight everyone thought I would lose.",{risk:1,ego:2}],
-  ["Having people trust me without needing to ask.",{reliability:2,ego:-1}]
+  ["Reaching a rank nobody expected me to reach.",{ambition:5,ego:3}],
+  ["Building something that still works when I am absent.",{reliability:5,cooperation:3}],
+  ["Discovering something nobody else understands.",{curiosity:5,independence:3}],
+  ["Winning a fight everyone thought I would lose.",{risk:3,ego:5}],
+  ["Having people trust me without needing to ask.",{reliability:5,ego:-3}]
  ]
 },
 {
  q:"A mission changes halfway through, and the original plan is no longer useful.",
  a:[
-  ["Stick close to the plan until the leader changes it.",{reliability:2,independence:-1}],
-  ["Adapt immediately.",{independence:2,risk:1}],
-  ["Pause long enough to understand what changed.",{selfControl:2,curiosity:2}],
-  ["Coordinate a new plan with everyone.",{cooperation:2,selfControl:1}],
-  ["Push forward before the enemy adapts too.",{risk:2,selfControl:-1}]
+  ["Stick close to the plan until the leader changes it.",{reliability:5,independence:-3}],
+  ["Adapt immediately.",{independence:5,risk:3}],
+  ["Pause long enough to understand what changed.",{selfControl:5,curiosity:5}],
+  ["Coordinate a new plan with everyone.",{cooperation:5,selfControl:3}],
+  ["Push forward before the enemy adapts too.",{risk:5,selfControl:-3}]
  ]
 },
 {
  q:"You receive criticism you believe is unfair.",
  a:[
-  ["Argue immediately.",{ego:2,selfControl:-2}],
-  ["Listen first, then answer.",{selfControl:2,honesty:1}],
-  ["Ignore it unless it affects my standing.",{independence:1,ego:1}],
-  ["Ask someone neutral whether the criticism has merit.",{cooperation:1,curiosity:2,ego:-1}],
-  ["Remember it and prove them wrong later.",{ambition:2,selfControl:1}]
+  ["Argue immediately.",{ego:5,selfControl:-5}],
+  ["Listen first, then answer.",{selfControl:5,honesty:3}],
+  ["Ignore it unless it affects my standing.",{independence:3,ego:3}],
+  ["Ask someone neutral whether the criticism has merit.",{cooperation:3,curiosity:5,ego:-3}],
+  ["Remember it and prove them wrong later.",{ambition:5,selfControl:3}]
  ]
 },
 {
  q:"Your team has one remaining healing pill and two injured members.",
  a:[
-  ["Give it to whoever is more useful to the mission.",{selfControl:1,reliability:2,ego:-1}],
-  ["Give it to whoever is worse injured.",{cooperation:2,honesty:1}],
-  ["Let them decide.",{cooperation:1,independence:-1}],
-  ["Keep it if I am also injured and responsible for getting everyone home.",{reliability:2,ego:1}],
-  ["Split it, even if that reduces its effectiveness.",{cooperation:2,risk:1}]
+  ["Give it to whoever is more useful to the mission.",{selfControl:3,reliability:5,ego:-3}],
+  ["Give it to whoever is worse injured.",{cooperation:5,honesty:3}],
+  ["Let them decide.",{cooperation:3,independence:-3}],
+  ["Keep it if I am also injured and responsible for getting everyone home.",{reliability:5,ego:3}],
+  ["Split it, even if that reduces its effectiveness.",{cooperation:5,risk:3}]
  ]
 },
 {
  q:"Which kind of person is hardest for you to tolerate?",
  a:[
-  ["Someone arrogant without the skill to justify it.",{ego:1,ambition:1}],
-  ["Someone unreliable.",{reliability:2}],
-  ["Someone cowardly.",{risk:2}],
-  ["Someone dishonest.",{honesty:2}],
-  ["Someone who never thinks for themselves.",{independence:2}]
+  ["Someone arrogant without the skill to justify it.",{ego:3,ambition:3}],
+  ["Someone unreliable.",{reliability:5}],
+  ["Someone cowardly.",{risk:5}],
+  ["Someone dishonest.",{honesty:5}],
+  ["Someone who never thinks for themselves.",{independence:5}]
  ]
 },
 {
  q:"A stronger cultivator offers to mentor you, but expects obedience outside training too.",
  a:[
-  ["Accept. The opportunity is worth it.",{ambition:2,independence:-2}],
-  ["Refuse. Training is not ownership.",{independence:2,honesty:1}],
-  ["Negotiate clear boundaries.",{selfControl:2,honesty:1,cooperation:1}],
-  ["Accept temporarily, then leave when I have learned enough.",{ambition:2,honesty:-2}],
-  ["Ask others who trained under them before deciding.",{curiosity:2,selfControl:1}]
+  ["Accept. The opportunity is worth it.",{ambition:5,independence:-5}],
+  ["Refuse. Training is not ownership.",{independence:5,honesty:3}],
+  ["Negotiate clear boundaries.",{selfControl:5,honesty:3,cooperation:3}],
+  ["Accept temporarily, then leave when I have learned enough.",{ambition:5,honesty:-5}],
+  ["Ask others who trained under them before deciding.",{curiosity:5,selfControl:3}]
  ]
 },
 {
  q:"You are certain a teammate is lying to you, but you do not know why.",
  a:[
-  ["Confront them directly.",{honesty:2,ego:1}],
-  ["Watch and gather more information.",{curiosity:2,selfControl:2}],
-  ["Give them a chance to tell me on their own.",{cooperation:2,selfControl:1}],
-  ["Lie back and see what they do.",{honesty:-2,independence:1}],
-  ["Ignore it unless it affects the mission.",{reliability:1,curiosity:-1}]
+  ["Confront them directly.",{honesty:5,ego:3}],
+  ["Watch and gather more information.",{curiosity:5,selfControl:5}],
+  ["Give them a chance to tell me on their own.",{cooperation:5,selfControl:3}],
+  ["Lie back and see what they do.",{honesty:-5,independence:3}],
+  ["Ignore it unless it affects the mission.",{reliability:3,curiosity:-3}]
  ]
 },
 {
  q:"A dangerous Spirit Beast is blocking the shortest route home.",
  a:[
-  ["Fight it.",{risk:2,ego:1}],
-  ["Take the long route.",{risk:-2,reliability:1}],
-  ["Study it and look for a way past.",{curiosity:2,selfControl:1}],
-  ["Ask whether the group wants the risk.",{cooperation:2}],
-  ["Distract it rather than fight.",{independence:1,curiosity:1,risk:1}]
+  ["Fight it.",{risk:5,ego:3}],
+  ["Take the long route.",{risk:-5,reliability:3}],
+  ["Study it and look for a way past.",{curiosity:5,selfControl:3}],
+  ["Ask whether the group wants the risk.",{cooperation:5}],
+  ["Distract it rather than fight.",{independence:3,curiosity:3,risk:3}]
  ]
 },
 {
  q:"If you became a Paragon tomorrow, what would change first?",
  a:[
-  ["My training. I would aim higher immediately.",{ambition:2}],
-  ["Nothing important. A rank is a rank.",{ego:-2,selfControl:1}],
-  ["I would use the reputation to open doors for my group.",{cooperation:2,ambition:1}],
-  ["I would enjoy finally being recognized.",{ego:2}],
-  ["I would become more cautious. More people would be watching.",{selfControl:2,risk:-1}]
+  ["My training. I would aim higher immediately.",{ambition:5}],
+  ["Nothing important. A rank is a rank.",{ego:-5,selfControl:3}],
+  ["I would use the reputation to open doors for my group.",{cooperation:5,ambition:3}],
+  ["I would enjoy finally being recognized.",{ego:5}],
+  ["I would become more cautious. More people would be watching.",{selfControl:5,risk:-3}]
  ]
 },
 {
  q:"A teammate repeatedly makes the same harmless mistake.",
  a:[
-  ["Correct them every time.",{reliability:2,cooperation:1}],
-  ["Teach them a different way.",{cooperation:2,curiosity:1}],
-  ["Let them deal with the consequences.",{independence:2,cooperation:-1}],
-  ["Ask why the mistake keeps happening.",{curiosity:2,selfControl:1}],
-  ["Eventually lose patience.",{selfControl:-2,honesty:1}]
+  ["Correct them every time.",{reliability:5,cooperation:3}],
+  ["Teach them a different way.",{cooperation:5,curiosity:3}],
+  ["Let them deal with the consequences.",{independence:5,cooperation:-3}],
+  ["Ask why the mistake keeps happening.",{curiosity:5,selfControl:3}],
+  ["Eventually lose patience.",{selfControl:-5,honesty:3}]
  ]
 },
 {
  q:"You are offered a rare technique that nobody in the Wardens can currently use well.",
  a:[
-  ["Take it. I will learn.",{curiosity:2,ambition:1,risk:1}],
-  ["Give it to whoever is most suited.",{cooperation:2,ego:-1}],
-  ["Store it until someone needs it.",{reliability:2,selfControl:1}],
-  ["Trade it for something immediately useful.",{independence:1,curiosity:-1}],
-  ["Study it first before deciding.",{curiosity:2,selfControl:2}]
+  ["Take it. I will learn.",{curiosity:5,ambition:3,risk:3}],
+  ["Give it to whoever is most suited.",{cooperation:5,ego:-3}],
+  ["Store it until someone needs it.",{reliability:5,selfControl:3}],
+  ["Trade it for something immediately useful.",{independence:3,curiosity:-3}],
+  ["Study it first before deciding.",{curiosity:5,selfControl:5}]
  ]
 },
 {
  q:"What would make you leave an association fastest?",
  a:[
-  ["Being repeatedly disrespected.",{ego:2}],
-  ["Being ordered into pointless danger.",{risk:-2,independence:1}],
-  ["Leaders hiding important truths.",{honesty:2}],
-  ["Everyone becoming complacent.",{ambition:2}],
-  ["Members refusing to support one another.",{cooperation:2}]
+  ["Being repeatedly disrespected.",{ego:5}],
+  ["Being ordered into pointless danger.",{risk:-5,independence:3}],
+  ["Leaders hiding important truths.",{honesty:5}],
+  ["Everyone becoming complacent.",{ambition:5}],
+  ["Members refusing to support one another.",{cooperation:5}]
  ]
 },
 {
  q:"Which statement is closest to you?",
  a:[
-  ["If I promise something, I finish it.",{reliability:2}],
-  ["If circumstances change, promises may need to change too.",{independence:1,reliability:-1}],
-  ["I avoid promising what I cannot guarantee.",{selfControl:2,reliability:1}],
-  ["A promise to people matters more than a promise to rules.",{cooperation:2,honesty:1}],
-  ["Promises are useful, but survival comes first.",{risk:-1,independence:1}]
+  ["If I promise something, I finish it.",{reliability:5}],
+  ["If circumstances change, promises may need to change too.",{independence:3,reliability:-3}],
+  ["I avoid promising what I cannot guarantee.",{selfControl:5,reliability:3}],
+  ["A promise to people matters more than a promise to rules.",{cooperation:5,honesty:3}],
+  ["Promises are useful, but survival comes first.",{risk:-3,independence:3}]
  ]
 },
 {
  q:"You have one free month with no obligations. What appeals most?",
  a:[
-  ["Train until I improve something measurable.",{ambition:2,reliability:1}],
-  ["Travel somewhere unfamiliar.",{curiosity:2,risk:1}],
-  ["Spend it with people I care about.",{cooperation:2,independence:-1}],
-  ["Work on a private project.",{independence:2,curiosity:1}],
-  ["Rest. I earned it.",{ambition:-2,selfControl:1}]
+  ["Train until I improve something measurable.",{ambition:5,reliability:3}],
+  ["Travel somewhere unfamiliar.",{curiosity:5,risk:3}],
+  ["Spend it with people I care about.",{cooperation:5,independence:-3}],
+  ["Work on a private project.",{independence:5,curiosity:3}],
+  ["Rest. I earned it.",{ambition:-5,selfControl:3}]
  ]
 },
 {
  q:"A stranger asks for your help with a problem that sounds suspicious.",
  a:[
-  ["Refuse.",{risk:-2,selfControl:1}],
-  ["Help, but stay guarded.",{risk:1,selfControl:2}],
-  ["Ask questions until the story makes sense.",{curiosity:2,honesty:1}],
-  ["Help if the reward is good enough.",{ambition:1,independence:1}],
-  ["Bring someone else with me.",{cooperation:2,risk:-1}]
+  ["Refuse.",{risk:-5,selfControl:3}],
+  ["Help, but stay guarded.",{risk:3,selfControl:5}],
+  ["Ask questions until the story makes sense.",{curiosity:5,honesty:3}],
+  ["Help if the reward is good enough.",{ambition:3,independence:3}],
+  ["Bring someone else with me.",{cooperation:5,risk:-3}]
  ]
 },
 {
  q:"Someone weaker than you beats you in a fair spar.",
  a:[
-  ["Ask for an immediate rematch.",{ego:2,ambition:1}],
-  ["Ask them what they exploited.",{curiosity:2,ego:-1}],
-  ["Congratulate them and train harder.",{ambition:2,selfControl:2}],
-  ["Be annoyed, but keep it to myself.",{selfControl:1,ego:1}],
-  ["Laugh. Good. Now I learned something.",{curiosity:2,ego:-2,risk:1}]
+  ["Ask for an immediate rematch.",{ego:5,ambition:3}],
+  ["Ask them what they exploited.",{curiosity:5,ego:-3}],
+  ["Congratulate them and train harder.",{ambition:5,selfControl:5}],
+  ["Be annoyed, but keep it to myself.",{selfControl:3,ego:3}],
+  ["Laugh. Good. Now I learned something.",{curiosity:5,ego:-5,risk:3}]
  ]
 },
 {
  q:"You notice a loophole in an association rule that benefits you.",
  a:[
-  ["Use it. Rules should be written better.",{independence:2,honesty:-1}],
-  ["Report it before using it.",{honesty:2,reliability:1}],
-  ["Use it once, then report it.",{honesty:-1,curiosity:1,ego:1}],
-  ["Ignore it.",{selfControl:1,ambition:-1}],
-  ["Ask whether exploiting it would hurt anyone.",{cooperation:2,selfControl:1}]
+  ["Use it. Rules should be written better.",{independence:5,honesty:-3}],
+  ["Report it before using it.",{honesty:5,reliability:3}],
+  ["Use it once, then report it.",{honesty:-3,curiosity:3,ego:3}],
+  ["Ignore it.",{selfControl:3,ambition:-3}],
+  ["Ask whether exploiting it would hurt anyone.",{cooperation:5,selfControl:3}]
  ]
 },
 {
  q:"Which leadership style would you trust most?",
  a:[
-  ["The strongest person gives clear orders.",{independence:-1,ego:1,reliability:1}],
-  ["The most competent person leads each situation.",{curiosity:1,ego:-1,selfControl:1}],
-  ["The group decides important matters together.",{cooperation:2}],
-  ["A leader sets direction but expects disagreement.",{honesty:1,cooperation:1,independence:1}],
-  ["I prefer not to depend on leaders.",{independence:2}]
+  ["The strongest person gives clear orders.",{independence:-3,ego:3,reliability:3}],
+  ["The most competent person leads each situation.",{curiosity:3,ego:-3,selfControl:3}],
+  ["The group decides important matters together.",{cooperation:5}],
+  ["A leader sets direction but expects disagreement.",{honesty:3,cooperation:3,independence:3}],
+  ["I prefer not to depend on leaders.",{independence:5}]
  ]
 },
 {
  q:"A mission succeeds, but only because you ignored the plan.",
  a:[
-  ["Admit exactly what I did.",{honesty:2,reliability:1}],
-  ["Explain only if someone asks.",{independence:1,honesty:-1}],
-  ["Take responsibility for breaking the plan, even though it worked.",{reliability:2,honesty:1}],
-  ["The result proves the deviation was correct.",{ego:1,independence:2}],
-  ["Review why the plan failed before judging anyone.",{curiosity:2,selfControl:2}]
+  ["Admit exactly what I did.",{honesty:5,reliability:3}],
+  ["Explain only if someone asks.",{independence:3,honesty:-3}],
+  ["Take responsibility for breaking the plan, even though it worked.",{reliability:5,honesty:3}],
+  ["The result proves the deviation was correct.",{ego:3,independence:5}],
+  ["Review why the plan failed before judging anyone.",{curiosity:5,selfControl:5}]
  ]
 },
 {
  q:"Which would you rather be known as?",
  a:[
-  ["Dependable.",{reliability:2}],
-  ["Brilliant.",{ego:1,curiosity:1}],
-  ["Fearless.",{risk:2,ego:1}],
-  ["Honest.",{honesty:2}],
-  ["Impossible to control.",{independence:2,ego:1}]
+  ["Dependable.",{reliability:5}],
+  ["Brilliant.",{ego:3,curiosity:3}],
+  ["Fearless.",{risk:5,ego:3}],
+  ["Honest.",{honesty:5}],
+  ["Impossible to control.",{independence:5,ego:3}]
  ]
 },
 {
  q:"When you are angry, what is your first instinct?",
  a:[
-  ["Say exactly what I think.",{honesty:1,selfControl:-2}],
-  ["Leave until I calm down.",{selfControl:2}],
-  ["Turn the anger into action.",{ambition:1,risk:1}],
-  ["Talk to someone I trust.",{cooperation:2,independence:-1}],
-  ["Figure out what actually triggered me.",{curiosity:2,selfControl:1}]
+  ["Say exactly what I think.",{honesty:3,selfControl:-5}],
+  ["Leave until I calm down.",{selfControl:5}],
+  ["Turn the anger into action.",{ambition:3,risk:3}],
+  ["Talk to someone I trust.",{cooperation:5,independence:-3}],
+  ["Figure out what actually triggered me.",{curiosity:5,selfControl:3}]
  ]
 },
 {
  q:"You are offered a mission where success could make your name famous, but failure could cripple your cultivation.",
  a:[
-  ["Accept immediately.",{risk:2,ambition:2,ego:1}],
-  ["Accept only if the reward changes my future.",{risk:1,ambition:2,selfControl:1}],
-  ["Decline. Fame is not worth permanent damage.",{risk:-2,ego:-1}],
-  ["Study every available detail before deciding.",{curiosity:2,selfControl:2}],
-  ["Take it only if my team agrees to the same risk.",{cooperation:2,risk:1}]
+  ["Accept immediately.",{risk:5,ambition:5,ego:3}],
+  ["Accept only if the reward changes my future.",{risk:3,ambition:5,selfControl:3}],
+  ["Decline. Fame is not worth permanent damage.",{risk:-5,ego:-3}],
+  ["Study every available detail before deciding.",{curiosity:5,selfControl:5}],
+  ["Take it only if my team agrees to the same risk.",{cooperation:5,risk:3}]
  ]
 }
 ];
@@ -712,6 +736,56 @@ next.onclick=()=>{
   }
 };
 
+
+function clampEffect(value){
+  return Math.max(-5, Math.min(5, value));
+}
+
+function expandedEffect(effect){
+  const out={};
+  Object.keys(TRAITS).forEach(k=>out[k]=effect[k]||0);
+
+  const add=(trait,value)=>{
+    out[trait]=clampEffect((out[trait]||0)+value);
+  };
+
+  // Team-oriented choices usually trade a little independence/ego for cooperation.
+  if((effect.cooperation||0) >= 3){ add("ego",-2); add("independence",-1); }
+  if((effect.cooperation||0) <= -3){ add("ego",2); add("independence",1); }
+
+  // Strong concern for status tends to reduce cooperation, and vice versa.
+  if((effect.ego||0) >= 3){ add("cooperation",-2); }
+  if((effect.ego||0) <= -3){ add("cooperation",2); }
+
+  // Strong self-direction usually means relying on the group a little less.
+  if((effect.independence||0) >= 3 && effect.cooperation === undefined){ add("cooperation",-1); }
+  if((effect.independence||0) <= -3 && effect.cooperation === undefined){ add("cooperation",1); }
+
+  // Reliability and restraint reinforce one another.
+  if((effect.reliability||0) >= 3){ add("selfControl",1); }
+  if((effect.reliability||0) <= -3){ add("selfControl",-1); }
+  if((effect.selfControl||0) >= 3){ add("reliability",1); }
+  if((effect.selfControl||0) <= -3){ add("reliability",-1); }
+
+  // Honesty tends to support reliability; concealment tends to undermine it.
+  if((effect.honesty||0) >= 3){ add("reliability",1); add("ego",-1); }
+  if((effect.honesty||0) <= -3){ add("reliability",-1); add("ego",1); }
+
+  // Risk tolerance trades some restraint for willingness to seize opportunities.
+  if((effect.risk||0) >= 3){ add("selfControl",-1); add("ambition",1); }
+  if((effect.risk||0) <= -3){ add("selfControl",1); }
+
+  // Curiosity nudges people toward independent investigation.
+  if((effect.curiosity||0) >= 3){ add("independence",1); }
+
+  // Ambition naturally carries some concern for advancement and standing.
+  if((effect.ambition||0) >= 3){ add("ego",1); }
+  if((effect.ambition||0) <= -3){ add("ego",-1); }
+
+  Object.keys(out).forEach(k=>out[k]=clampEffect(out[k]));
+  return out;
+}
+
 function calculateScores(){
   const raw={};
   const mins={};
@@ -719,19 +793,30 @@ function calculateScores(){
   Object.keys(TRAITS).forEach(k=>{raw[k]=0; mins[k]=0; maxs[k]=0;});
 
   questions.forEach((q,qi)=>{
+    const expandedAnswers=q.a.map(x=>expandedEffect(x[1]));
+
     Object.keys(TRAITS).forEach(t=>{
-      const vals=q.a.map(x=>(x[1][t]||0));
-      mins[t]+=Math.min(...vals);
-      maxs[t]+=Math.max(...vals);
+      const vals=expandedAnswers.map(x=>(x[t]||0));
+
+      // Center each question on the average of its available answers.
+      // This prevents a trait from scoring artificially high just because
+      // most answers in that question happen to add positive points.
+      const mean=vals.reduce((sum,v)=>sum+v,0)/vals.length;
+      const centered=vals.map(v=>v-mean);
+
+      mins[t]+=Math.min(...centered);
+      maxs[t]+=Math.max(...centered);
+      raw[t]+=(expandedAnswers[answers[qi]][t]||0)-mean;
     });
-    const chosen=q.a[answers[qi]][1];
-    Object.entries(chosen).forEach(([k,v])=>raw[k]+=v);
   });
 
   const pct={};
   Object.keys(TRAITS).forEach(t=>{
-    const span=maxs[t]-mins[t];
-    pct[t]=span===0?50:Math.round(((raw[t]-mins[t])/span)*100);
+    // 50% represents a genuinely average response pattern.
+    // Positive and negative deviations then move symmetrically around it.
+    const maxAbs=Math.max(Math.abs(mins[t]),Math.abs(maxs[t]),1);
+    const normalized=50 + (raw[t] / maxAbs) * 50;
+    pct[t]=Math.max(0,Math.min(100,Math.round(normalized)));
   });
   return pct;
 }
@@ -745,9 +830,9 @@ function band(score){
 function getVerdict(s){
   const rel=s.reliability, sc=s.selfControl, coop=s.cooperation, risk=s.risk, ego=s.ego, cur=s.curiosity, ind=s.independence;
   if(rel>=68 && sc>=60) return ["Interview Recommended","Rinmei has stopped frowning, which is already an achievement."];
-  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested, but Rinmei would like several additional safeguards."];
+  if(cur>=75 && risk>=72 && sc<50) return ["Promising Wildcard","Siu is interested, but Rinmei would like several additional questions to be asked."];
   if(ind>=76 && coop<42) return ["Specialist Candidate","Useful, capable, but Seloryn is suspicious of you."];
-  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork..."];
+  if(ego>=78 && rel<48) return ["Further Review Required","Your confidence arrived before your paperwork... Let's start from the first questions, slower this time."];
   if(coop>=72 && rel>=60) return ["Strong Group Fit","You look like someone the Wardens would actually want beside them on a mission."];
   if(risk>=80 && sc<40) return ["Arya Approved","Please note: This is not the same thing as official acceptance."];
   return ["Interview Recommended","Interesting enough to talk to. But... That is the point of this test."];
@@ -755,14 +840,536 @@ function getVerdict(s){
 
 function getTitle(sorted){
   const [a,b,c]=sorted.slice(0,3).map(x=>x[0]);
-  const names={reliability:"Steady Hands",selfControl:"Stone-cold Mind",ambition:"Every Opportunity Matters",cooperation:"Team Player",independence:"Solo Leveling",curiosity:"Bookworm",honesty:"The Truth Hurts",risk:"Storm-Chaser",ego:"Always #1"};
+  const names={reliability:"Steady Hands",selfControl:"Stone-cold Mind",ambition:"Every Opportunity Matters",cooperation:"Team Player",independence:"Solo Leveling",curiosity:"Bookworm",honesty:"The Truth Hurts",risk:"YOLO",ego:"Always #1"};
   return `${names[a]} · ${names[b]} · ${names[c]}`;
 }
 
 function summaryFromScores(s,sorted){
   const top=sorted.slice(0,3).map(([k])=>TRAITS[k].toLowerCase());
   const low=sorted.slice(-2).map(([k])=>TRAITS[k].toLowerCase());
-  return `Your strongest tendencies are ${top[0]}, ${top[1]}, and ${top[2]}. Your profile is less driven by ${low[0]} and ${low[1]}. In Warden terms, that does not make you better or worse—it tells them what kind of trouble you are likely to become.`;
+  return `Your strongest tendencies are ${top[0]}, ${top[1]}, and ${top[2]}. Your profile is less driven by ${low[0]} and ${low[1]}. In Warden terms, that does not make you better or worse; it just tells us what kind of trouble you are likely to become if we recruit you.`;
+}
+
+
+function randomPick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function shuffleCopy(arr){
+  const copy=[...arr];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy;
+}
+
+const neutralCommentPool = [
+  {lines:[["Rinmei","Nothing here is screaming at me, which is probably a good sign."],["Siu","Or they're just good at hiding it."],["Rinmei","Why do you always make my work harder?"]]},
+  {lines:[["Seloryn","Balanced."],["Ruben","That sounds suspiciously like 'not exceptional.' Bah..."],["Seloryn","Only you could be offended by somebody else's result."]]},
+  {lines:[["Siu","Hard to read."],["Nokoh","That can be useful."],["Siu","Exactly."]]},
+  {lines:[["Bren","Average doesn't mean useless."],["Joren","For once, Bren said something encouraging."],["Bren","I didn't mean it that way."]]},
+  {lines:[["Marly","*They seem nice.*"],["Arya","BORING! WHERE'S THE DANGER?!"],["Marly","Danger is bad..."]]},
+  {lines:[["Quillian","No obvious disaster... Hm... Suspicious."],["Siu","You still act like an old man."],["Quillian","I heard that, boy!"]]}
+];
+
+const traitCommentPools = {
+  reliability:{
+    high:[
+      {lines:[["Rinmei","Good. If you say you'll be there, I can actually believe it."]]},
+      {lines:[["Siu","Reliable people are underrated right up until everyone needs one."]]},
+      {lines:[["Marly","You keep promises? I like you already."]]},
+      {lines:[["Bren","You show up and finish things. Fine by me."]]},
+      {lines:[["Nokoh","Consistency wins more missions than flashy techniques."]]},
+      {lines:[["Quillian","Dependable? Good. Maybe somebody around here can finish paperwork without forgetting it."]]}
+    ],
+    low:[
+      {lines:[["Rinmei","I am not assigning you anything with a deadline."]]},
+      {lines:[["Siu","Flexible is useful, but vanishing when people count on you isn't."]]},
+      {lines:[["Joren","Please never handle shared funds."]]},
+      {lines:[["Bren","If you promise something, mean it... Don't break it. Ever."]]},
+      {lines:[["Marly","Maybe write things down? I forget where I left my snacks sometimes too."]]},
+      {lines:[["Quillian","A plan that depends on you appears to be nothing more than gambling."]]}
+    ]
+  },
+  selfControl:{
+    high:[
+      {lines:[["Siu","You think first, which makes the dangerous decisions easier to deal with later."]]},
+      {lines:[["Rinmei","Finally. Someone who might read the entire mission notice before running off."]]},
+      {lines:[["Nokoh","Calm under pressure is difficult to fake."]]},
+      {lines:[["Seloryn","You look composed. I wonder what you're hiding underneath it..."]]},
+      {lines:[["Quillian","Cold head. Keep it as such, because I need people who can observe techniques in the wild."]]},
+      {lines:[["Arya","YOU THINK TOO MUCH! Ugh... so annoying, don't talk to me!"]]}
+    ],
+    low:[
+      {lines:[["Arya","YES! INSTINCT! ACTION! NO BORING THINKING JUST THRUSTING!"]]},
+      {lines:[["Siu","Whatever Arya tells you, do the opposite."]]},
+      {lines:[["Rinmei","I would like you to count to five before every major life decision. Ten, actually. Make it twenty."]]},
+      {lines:[["Seloryn","Quick reactions are useful, but they come with quick regrets, too."]]},
+      {lines:[["Quillian","If your first instinct is always 'do it,' at least learn to dodge my cane afterward."]]},
+      {lines:[["Marly","Maybe ask a friend first? Friends can also say 'no,' you know."]]}
+    ]
+  },
+  ambition:{
+    high:[
+      {lines:[["Seloryn","You want to climb the ranks? Sure. Just make sure you know why you're doing it."]]},
+      {lines:[["Ruben","At last, somebody with standards. Aim higher."]]},
+      {lines:[["Siu","Wanting more isn't a problem... We are cultivators. But deciding nothing is ever enough is not the way."]]},
+      {lines:[["Joren","Ambition is excellent, if it comes with a budget."]]},
+      {lines:[["Quillian","Reach for the summit if you want. Just don't complain when the air gets thin on the top."]]},
+      {lines:[["Arya","TOP OF THE LIST! TOP OF THE MOUNTAIN! I LIKE BEING ON TOP!"]]}
+    ],
+    low:[
+      {lines:[["Rinmei","Not everyone needs to chase rank. I understand that, believe me when I say so."]]},
+      {lines:[["Siu","If you're satisfied with your path, that's enough. Just don't turn that peace into stagnation."]]},
+      {lines:[["Seloryn","You don't seem interested in proving anything. That's rarer than you'd think."]]},
+      {lines:[["Ruben","I genuinely cannot relate to this result."]]},
+      {lines:[["Bren","If you have what you need, why chase what you don't?"]]},
+      {lines:[["Marly","Resting is also doing something. Hm-hm!"]]}
+    ]
+  },
+  cooperation:{
+    high:[
+      {lines:[["Rinmei","You understand that an association contains other people, so you're already ahead of several other applicants."]]},
+      {lines:[["Marly","Friends make everything easier."]]},
+      {lines:[["Siu","You naturally think about the group. Don't let people exploit that."]]},
+      {lines:[["Nokoh","Good teams survive mistakes that would kill individuals."]]},
+      {lines:[["Cho'Wa","A pack that fights together lives together. Awoooo!"]]},
+      {lines:[["Arya","DON'T YOU DARE TAKE MY MASTER FROM ME!"]]}
+    ],
+    low:[
+      {lines:[["Seloryn","You do realize you're applying to join an association, right?"]]},
+      {lines:[["Siu","Being independent is fine. Treating everyone else like an inconvenience isn't."]]},
+      {lines:[["Rinmei","I foresee meeting-related difficulties."]]},
+      {lines:[["Nokoh","Do realize that some missions require trusting the person beside you..."]]},
+      {lines:[["Cho'Wa","You'd make a terrible pack mate... Ugh..."]]},
+      {lines:[["Quillian","If you hate groups that much, why are you filling out the damned form?"]]}
+    ]
+  },
+  independence:{
+    high:[
+      {lines:[["Siu","You don't wait for permission. I can work with that. Usually... Thanks, Arya."]]},
+      {lines:[["Bren","If something needs doing, do it."]]},
+      {lines:[["Seloryn","You seem difficult to control. I'll let Siu handle you."]]},
+      {lines:[["Rinmei","Please remember that 'I handled it myself' is not always a complete mission report."]]},
+      {lines:[["Quillian","Good. Think for yourself. Just make sure the thought doesn't include me."]]},
+      {lines:[["Ruben","Self-sufficient and confident. Excellent foundation."]]}
+    ],
+    low:[
+      {lines:[["Marly","Why would I go alone when everyone I like is right there?"]]},
+      {lines:[["Rinmei","You work comfortably with support. That's useful, as long as you can still act when separated."]]},
+      {lines:[["Siu","Trusting people is good, but needing permission for everything isn't. We aren't your parents."]]},
+      {lines:[["Cho'Wa","STAY WITH THE PACK! PACK GOOD!"]]},
+      {lines:[["Nokoh","Dependence becomes dangerous if you can't even cultivate for yourself."]]},
+      {lines:[["Seloryn","You prefer company, and there is nothing wrong with that. Just learn to stand alone when you eventually will have to."]]}
+    ]
+  },
+  curiosity:{
+    high:[
+      {lines:[["Siu","You see something unknown and immediately want to poke it, don't you? Are you related to Arya?"]]},
+      {lines:[["Arya","YES! POKE IT! POKE IT HARDER!"]]},
+      {lines:[["Quillian","Do not encourage them, fox."]]},
+      {lines:[["Rinmei","I am adding 'keep away from unidentified formations' to your file."]]},
+      {lines:[["Seloryn","You ask why before deciding, which is more than some of the others do around here."]]},
+      {lines:[["Marly","If nobody asks questions, how do we find new snacks?"]]}
+    ],
+    low:[
+      {lines:[["Bren","Does it work? Good. Next question."]]},
+      {lines:[["Siu","Practical. I respect it. I also know this result would drive Quillian insane."]]},
+      {lines:[["Quillian","You don't want to know why? What kind of barbarian are you?"]]},
+      {lines:[["Rinmei","At least you probably won't activate every mysterious formation you find."]]},
+      {lines:[["Joren","Somebody has to stop the others from spending three days investigating a weird rock."]]},
+      {lines:[["Arya","BUT WHAT IF THE CHEST IS SECRETLY AMAZING?! TRAPS?! BAH!"]]}
+    ]
+  },
+  honesty:{
+    high:[
+      {lines:[["Rinmei","Direct answers. Clear intentions. My paperwork thanks you."]]},
+      {lines:[["Siu","Honest is good. Even if others take it as an insult."]]},
+      {lines:[["Marly","Truth is easier. Then you don't have to remember what you said."]]},
+      {lines:[["Nokoh","People know where they stand with you. I like that."]]},
+      {lines:[["Seloryn","You'd be terrible at political dinners. I mean that as a compliment."]]},
+      {lines:[["Quillian","You tell the truth even when it hurts? Excellent. Mostly because I enjoy watching it hurt people."]]}
+    ],
+    low:[
+      {lines:[["Siu","You're comfortable bending the truth... I see..."]]},
+      {lines:[["Rinmei","I will be checking your answers twice."]]},
+      {lines:[["Seloryn","Interesting. I don't believe you. Let's start from the beginning."]]},
+      {lines:[["Ruben","Strategic presentation of facts is an art. Please note that I'm an art critic in my free time."]]},
+      {lines:[["Joren","That's called lying."]]},
+      {lines:[["Quillian","If you're going to lie, at least be good enough that I don't notice."]]}
+    ]
+  },
+  risk:{
+    high:[
+      {lines:[["Arya","I LIKE YOU! LET'S GO EXPLORING!"]]},
+      {lines:[["Siu","Risk isn't automatically stupidity. Please help me prove that sentence is true."]]},
+      {lines:[["Rinmei","Why do all the interesting applicants make my job harder?"]]},
+      {lines:[["Seloryn","You see the warning sign. You simply don't consider it persuasive enough, eh?"]]},
+      {lines:[["Quillian","Courage and idiocy share a border. You appear to live on both sides."]]},
+      {lines:[["Ruben","Big rewards rarely come from safe decisions."]]}
+    ],
+    low:[
+      {lines:[["Joren","Excellent. Someone who understands that dying is financially inefficient."]]},
+      {lines:[["Rinmei","You like exits, backup plans, and survivable odds. Me too."]]},
+      {lines:[["Siu","Caution keeps people alive. I can't fault that."]]},
+      {lines:[["Bren","Avoid pointless danger. Take necessary danger. Simple."]]},
+      {lines:[["Arya","BOOORIIIIING! ...Fine, you can carry the healing pills, just make sure you stay at the back."]]},
+      {lines:[["Quillian","At least one of you has the sense to distrust glowing rocks."]]}
+    ]
+  },
+  ego:{
+    high:[
+      {lines:[["Ruben","Excellent score. Ignore anyone who says otherwise."]]},
+      {lines:[["Joren","You aren't a new half-brother I gained... are you?"]]},
+      {lines:[["Seloryn","If you care about being recognized this much, make sure you can also back it up."]]},
+      {lines:[["Siu","Confidence is useful. Needing everyone else to agree with your confidence is pretty exhausting, so don't expect me to bother with it."]]},
+      {lines:[["Arya","YOU THINK YOU'RE THE BEST?! PFT! LAUGHABLE!"]]},
+      {lines:[["Quillian","Big ego... I've seen hundreds like you become a servant."]]}
+    ],
+    low:[
+      {lines:[["Seloryn","You don't need the room to know your name...? Are you Toban's recruit?"]]},
+      {lines:[["Siu","Not caring about recognition isn't as bad as the others think."]]},
+      {lines:[["Ruben","That's depressing."]]},
+      {lines:[["Joren","It's called humility. I have no issues with that."]]},
+      {lines:[["Marly","If your friends know you're good, isn't that enough?"]]},
+      {lines:[["Rinmei","Low ego means fewer arguments over titles. I consider this a great advantage."]]}
+    ]
+  }
+};
+
+const extremeNotices = {
+  reliability:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Rinmei has already written your name beside three unfinished duties."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Your application has been moved away from Arya's pile for its own protection."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You have been deemed suspiciously dependable. Expect some extra responsibility."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Please do not volunteer to hold the only map when on a mission."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Rinmei has requested collateral before assigning you anything important."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Your promises now require witnesses."]]}
+    ]
+  },
+  selfControl:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Siu would like to know how you keep doing that."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Arya has described your emotional restraint as 'deeply suspicious.'"]]},
+      {special:true,lines:[["SPECIAL NOTICE","You may be permitted near volatile formations. Once or twice."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Rinmei has confiscated your access to the phrase 'what could go wrong?'"]]},
+      {special:true,lines:[["SPECIAL NOTICE","Arya has endorsed you. This has negatively affected your application."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Quillian recommends learning to stop moving before speaking or, preferably, just to learn some thinking methods."]]}
+    ]
+  },
+  ambition:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Ruben has asked whether you are interested in discussing future rankings."]]},
+      {special:true,lines:[["SPECIAL NOTICE","The Paragon List has been informed that you are looking at it."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Please remember that 'higher' is not a complete life philosophy."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","You appear immune to rank fever. Hollow Song researchers are interested in your alignment."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Ruben does not understand your condition and is worried it may be infectious."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You have been cleared to enjoy a quiet afternoon without turning it into training."]]}
+    ]
+  },
+  cooperation:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Rinmei has already assigned you administrative duties."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Marly has voted to keep you. Her vote is not official, but she is very persuasive."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You are at elevated risk of being asked to mediate arguments."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Reminder: joining the Spirit Wardens technically requires interacting with the Spirit Wardens."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Your interview may be held alone, which appears to be your preferred group size."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Seloryn has circled the word 'association' on your application several times."]]}
+    ]
+  },
+  independence:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","You have been preemptively told that 'I handled it' is not a valid mission report."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Siu approves. Rinmei has concerns about Siu approving."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You have been classified as difficult to supervise and possibly proud of it."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Marly has offered you a permanent seat on someone's shoulder."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Please identify at least one decision you can make without asking the room."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You have been reminded that separation during missions is sometimes unavoidable."]]}
+    ]
+  },
+  curiosity:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Do not enter unexplored ruins unsupervised. This notice was written specifically because of people like you."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Quillian has hidden the experimental formation notes."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You are prohibited from asking Arya 'what happens if we touch it?'"]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Bren has given your result one approving nod."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Quillian has described your lack of questions as 'personally offensive.'"]]},
+      {special:true,lines:[["SPECIAL NOTICE","You have been assigned to stop curious people from opening sealed doors."]]}
+    ]
+  },
+  honesty:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","You are either remarkably straightforward or catastrophically unsuited to sect politics."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Seloryn would like you seated near her at the next group dinner. For her own entertainment."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Rinmei has marked your answers 'refreshingly easy to process.'"]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Your application has been placed under a formation review for alterations."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Rinmei has requested that you repeat that answer while looking directly into her eyes."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Quillian says your lies need documentation, to keep track of all of them."]]}
+    ]
+  },
+  risk:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Arya has endorsed your application. This is not official approval."]]},
+      {special:true,lines:[["SPECIAL NOTICE","The Healing Hall has asked us not to send you their way preemptively."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Siu insists this score can coexist with good judgment. Rinmei remains unconvinced."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Joren has invited you to discuss the economic strain your presence puts on the Wardens."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You have been selected to ask 'is this necessary?' before Arya acts."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Your emergency exit planning has been noted with approval."]]}
+    ]
+  },
+  ego:{
+    high:[
+      {special:true,lines:[["SPECIAL NOTICE","Ruben has requested to personally review your application."]]},
+      {special:true,lines:[["SPECIAL NOTICE","A mirror has been added to the interview room for your comfort."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Your confidence entered the room several minutes before you did. Please, next time, try to arrive simultaneously."]]}
+    ],
+    low:[
+      {special:true,lines:[["SPECIAL NOTICE","Ruben has requested a second test because he refuses to believe this score exists."]]},
+      {special:true,lines:[["SPECIAL NOTICE","You may need to be reminded to take credit when you actually earned it."]]},
+      {special:true,lines:[["SPECIAL NOTICE","Seloryn is worried you will be used by Arya to do her bidding."]]}
+    ]
+  }
+};
+
+const comboCommentPool = [
+  {when:s=>s.risk>=72&&s.selfControl>=72, comments:[
+    {lines:[["Siu","See? High risk and high self-control. Calculated."],["Rinmei","Calculated danger is still danger."],["Siu","But he can plan around it."],["Rinmei","You are not helping here. Go away."]]},
+    {lines:[["Seloryn","You think before doing something dangerous."],["Quillian","Which merely means they have time to understand exactly how stupid it is."]]},
+    {lines:[["Ruben","Bold and controlled. Excellent."],["Joren","You just like the bold part."],["Ruben","And?"]]}
+  ]},
+  {when:s=>s.risk>=72&&s.selfControl<=38, comments:[
+    {lines:[["Arya","YES! FINALLY, SOMEONE NORMAL!"],["Siu","Do not listen to her."]]},
+    {lines:[["Rinmei","You recognize danger and somehow interpret it as encouragement."],["Quillian","A surprisingly common disease amongst the Wardens."]]},
+    {lines:[["Siu","I need you to think before jumping."],["Arya","THINK WHILE JUMPING!"],["Siu","If you can fly, that is."]]}
+  ]},
+  {when:s=>s.ego>=72&&s.cooperation<=38, comments:[
+    {lines:[["Ruben","I see nothing wrong here."],["Joren","Of course you don't."],["Rinmei","I see several things."]]},
+    {lines:[["Seloryn","You know an association contains people other than you?"],["Ruben","Allegedly."]]},
+    {lines:[["Siu","Confidence: good. Treating teammates like supporting characters: the opposite."]]}
+  ]},
+  {when:s=>s.cooperation>=72&&s.reliability>=72, comments:[
+    {lines:[["Rinmei","Accepted."],["Siu","You can't accept them from the questionnaire."],["Rinmei","Watch me."]]},
+    {lines:[["Marly","They help people and keep promises. Keep them!"],["Arya","MARLY HAS SPOKEN!"]]},
+    {lines:[["Nokoh","A person the group can depend on."],["Cho'Wa","Pack material."]]}
+  ]},
+  {when:s=>s.independence>=72&&s.cooperation<=38, comments:[
+    {lines:[["Seloryn","Do you actually want to join an association?"],["Siu","Fair question."]]},
+    {lines:[["Rinmei","You appear to have applied for membership in order to avoid every member we already have...?"]]},
+    {lines:[["Bren","Working alone is fine."],["Rinmei","Bren, you are not helping the screening process."]]}
+  ]},
+  {when:s=>s.curiosity>=72&&s.risk>=72, comments:[
+    {lines:[["Quillian","Absolutely not."],["Siu","Why?"],["Quillian","Because that's how I ended up with you, boy."]]},
+    {lines:[["Arya","MYSTERY CAVE!"],["Rinmei","No."],["Arya","MYSTERY FORMATION!"],["Rinmei","Still no."]]},
+    {lines:[["Siu","You want to know what it does."],["Seloryn","And you're willing to find out personally."],["Siu","That's the interesting part."]]}
+  ]},
+  {when:s=>s.ambition>=72&&s.ego>=72, comments:[
+    {lines:[["Ruben","Promising."],["Joren","You are literally complimenting yourself here, aren't you?"]]},
+    {lines:[["Seloryn","You want the summit and you want everyone to know when you reach it."],["Ruben","As they should. Plant your flag."]]},
+    {lines:[["Siu","Aim high, but if you treat everything as a ranking match, we will have a problem."]]}
+  ]},
+  {when:s=>s.honesty>=72&&s.selfControl<=38, comments:[
+    {lines:[["Rinmei","Being honest does not require saying every thought immediately."],["Arya","LIES! Wait... Um... TRUTHS!"]]},
+    {lines:[["Seloryn","Truthful and impulsive. Ouch."],["Siu","That combination starts arguments very efficiently, so it needs to be focused at the right people."]]},
+    {lines:[["Quillian","At least when you insult someone, they'll know you meant it."]]}
+  ]},
+  {when:s=>s.curiosity<=38&&s.reliability>=72, comments:[
+    {lines:[["Bren","Does it work?"],["Rinmei","Yes."],["Bren","Then why are we still talking?"]]},
+    {lines:[["Siu","You don't need every answer. You just need the job done correctly."],["Quillian","Barbaric."]]},
+    {lines:[["Joren","Reliable and unlikely to waste three hours investigating something nobody understands anyway. Excellent."]]}
+  ]},
+  {when:s=>s.independence<=38&&s.cooperation>=72, comments:[
+    {lines:[["Marly","Why go alone when your friends are right there?"],["Arya","EXACTLY! SEND THEM IN FIRST!"]]},
+    {lines:[["Rinmei","You function best as part of a group."],["Siu","Just don't develop separation anxiety like Marly or Arya."]]},
+    {lines:[["Cho'Wa","Pack-minded."],["Nokoh","That's high praise, coming from him."]]}
+  ]},
+  {when:s=>s.ambition>=72&&s.ego<=38, comments:[
+    {lines:[["Seloryn","You want to reach the top? Then put in the work, and we will support you."]]},
+    {lines:[["Siu","Driven, I'll give you that. Don't expect us to give up our posts to you, though."]]},
+    {lines:[["Ruben","Why climb that high if nobody sees it?"],["Joren","For the achievement?"],["Ruben","Huh. I hate it when you make sense."]]}
+  ]},
+  {when:s=>s.selfControl>=72&&s.risk<=38, comments:[
+    {lines:[["Rinmei","Finally. Someone who thinks before speaking. A rare trait around here."]]},
+    {lines:[["Joren","Planning and survival. Excellent combination."]]},
+    {lines:[["Arya","YOU ARE BORING."],["Siu","You don't even know them."],["Arya","BORING AND THAT'S THAT!"]]}
+  ]},
+  {when:s=>s.honesty>=72&&s.cooperation>=72, comments:[
+    {lines:[["Marly","Honest and friendly. I vote yes."],["Rinmei","You don't have a vote."],["Marly","I still vote yes."]]},
+    {lines:[["Siu","You'd rather solve problems directly than let them trouble the others. I respect that."]]},
+    {lines:[["Seloryn","Useful, but try to learn how to soften your speech."]]}
+  ]},
+  {when:s=>s.honesty<=38&&s.ego>=72, comments:[
+    {lines:[["Rinmei","You want recognition, but you're flexible about how the story is told."],["Siu","That was diplomatic..."],["Rinmei","I practiced."]]},
+    {lines:[["Ruben","Presentation matters."],["Joren","Truth doesn't equal presentation."],["Ruben","I didn't say it did; it just sells it better."]]},
+    {lines:[["Quillian","If you're going to rewrite history, at least make yourself impressive. And believable."]]}
+  ]},
+  {when:s=>s.reliability>=72&&s.independence>=72, comments:[
+    {lines:[["Siu","You can be trusted to handle something without being chased down afterward. That's rare."]]},
+    {lines:[["Rinmei","Self-directed and dependable."],["Seloryn","You sound relieved."],["Rinmei","Oh, believe me... I am!"]]},
+    {lines:[["Bren","Give them the job and let them work. Exactly what I prefer."]]}
+  ]},
+  {when:s=>s.reliability<=38&&s.risk>=72, comments:[
+    {lines:[["Rinmei","You are adventurous and difficult to depend on. That is not the reassuring combination you think it is."]]},
+    {lines:[["Siu","You keep volunteering for missions, but I can't be sure you'll remember the plan we have for them."],["Arya","PLANS ARE FLEXIBLE LIKE I AM!"]]},
+    {lines:[["Quillian","A wandering catastrophe... Why do we need another one? Tsk..."]]}
+  ]},
+  {when:s=>s.ambition<=38&&s.ego<=38, comments:[
+    {lines:[["Seloryn","You don't seem interested in rankings."],["Siu","Honestly? Sometimes I totally get it."]]},
+    {lines:[["Ruben","What motivates you?"],["Marly","Maybe being happy?"],["Ruben","Please note that I don't understand what she is squeaking."]]},
+    {lines:[["Rinmei","Low-maintenance applicants do exist... I knew it!"]]}
+  ]},
+  {when:s=>s.curiosity>=72&&s.selfControl>=72, comments:[
+    {lines:[["Quillian","Good. Curious enough to ask, disciplined enough not to interrupt my explanation."]]},
+    {lines:[["Rinmei","You investigate before acting."],["Siu","See? Curiosity can be responsible."],["Rinmei","I never said it couldn't; it's just Arya and the like who are taking it too far..."]]},
+    {lines:[["Seloryn","I appreciate the patience to wait for the correct answer."]]}
+  ]},
+  {when:s=>s.cooperation>=72&&s.independence>=72, comments:[
+    {lines:[["Siu","Interesting... Kind of. You work well with people without needing them to decide for you."]]},
+    {lines:[["Rinmei","Independent without being allergic to teamwork? I can find you some work to do..."]]},
+    {lines:[["Nokoh","You can stand alone and still choose not to. Huh."]]}
+  ]},
+  {when:s=>s.ego>=72&&s.reliability>=72, comments:[
+    {lines:[["Ruben","High ego and high reliability. Finally, the one who embodies perfection."],["Joren","That is literally your result."],["Ruben","Exactly. A proven model."]]},
+    {lines:[["Siu","You think highly of yourself, but at least people can count on you. Please don't change for the worst."]]},
+    {lines:[["Seloryn","Proud, but dependable. Annoying, but not as much as I would have expected.."]]}
+  ]},
+  {when:s=>s.risk<=38&&s.ambition>=72, comments:[
+    {lines:[["Joren","You want to climb, but you'd prefer not to fall off the mountain. Aren't we all?"]]},
+    {lines:[["Rinmei","Ambitious without gambling everything. Make it stay that way."]]},
+    {lines:[["Quillian","Careful ambition still reaches the top. It merely takes longer."]]}
+  ]},
+  {when:s=>s.risk>=72&&s.reliability>=72, comments:[
+    {lines:[["Siu","You'll take the dangerous mission and actually come back when you said you would. I respect that a lot."]]},
+    {lines:[["Rinmei","You are dependable enough that your risk tolerance becomes everyone else's problem."]]},
+    {lines:[["Arya","DANGEROUS AND RELIABLE! PERFECT!"],["Marly","Those words shouldn't sound good together, Big Sis."]]}
+  ]},
+  {when:s=>s.honesty<=38&&s.independence>=72, comments:[
+    {lines:[["Seloryn","You make your own decisions and don't necessarily explain them afterward."],["Rinmei","And we both dislike this sentence."]]},
+    {lines:[["Siu","Secretive and self-directed? Haaah... You can also become impossible to manage. Great..."]]},
+    {lines:[["Quillian","Keep your secrets if you like. Just don't expect people to trust what they can't see..."]]}
+  ]},
+  {when:s=>s.selfControl<=38&&s.ego>=72, comments:[
+    {lines:[["Joren","So you react immediately and take everything personally."],["Ruben","I can have fun with that."],["Joren","That is not what I wanted to get at..."]]},
+    {lines:[["Rinmei","I am moving your room away from others and moving you away from anything expensive and breakable."]]},
+    {lines:[["Siu","Pride plus impulse. Learn when to walk away before I have to teach that to you."]]}
+  ]}
+];
+
+function makeAssessmentText(s,sorted){
+  const top=sorted.slice(0,3).map(([k])=>TRAITS[k]);
+  const low=sorted.slice(-2).map(([k])=>TRAITS[k]);
+
+  const templates=[
+    `Your profile leans most strongly toward ${top[0]}, ${top[1]}, and ${top[2]}. ${low[0]} and ${low[1]} influence you less. The Wardens would expect those strengths to show most clearly when pressure forces you to choose quickly.`,
+    `${top[0]} stands out first, followed by ${top[1]} and ${top[2]}. You are much less driven by ${low[0]} and ${low[1]}. Whether that makes you easy or terrifying to work with depends heavily on the mission.`,
+    `If the Wardens had to summarize you from this sheet alone, they would start with ${top[0]}, ${top[1]}, and ${top[2]}. Your lower ${low[0]} and ${low[1]} scores suggest that you solve problems from a noticeably different angle than someone who values those traits highly.`,
+    `The clearest pattern here is ${top[0]} backed by ${top[1]} and ${top[2]}. ${low[0]} and ${low[1]} sit at the other end of your profile. None of that is automatically good or bad; it tells the Wardens what kind of trouble they should prepare for.`,
+    `You consistently favor choices associated with ${top[0]}, ${top[1]}, and ${top[2]}. By comparison, ${low[0]} and ${low[1]} rarely decide your answers. Rinmei would call this useful information. Arya would call it far too many numbers.`,
+    `Your answers paint a fairly clear picture: strong ${top[0]}, notable ${top[1]}, and plenty of ${top[2]}. ${low[0]} and ${low[1]} are much quieter in your decisions. The interesting part is not any single score, but what happens when those traits collide.`
+  ];
+  return randomPick(templates);
+}
+
+function getCharacterCommentary(s,sorted){
+  const chosen=[];
+  const fingerprints=new Set();
+
+  const addUnique=(comment)=>{
+    if(!comment) return;
+    const fp=JSON.stringify(comment.lines);
+    if(fingerprints.has(fp)) return;
+    fingerprints.add(fp);
+    chosen.push(comment);
+  };
+
+  const matchingCombos=comboCommentPool.filter(x=>x.when(s));
+  if(matchingCombos.length){
+    const first=randomPick(matchingCombos);
+    addUnique(randomPick(first.comments));
+
+    if(matchingCombos.length>1 && Math.random()<0.45){
+      const rest=matchingCombos.filter(x=>x!==first);
+      if(rest.length) addUnique(randomPick(randomPick(rest).comments));
+    }
+  }
+
+  const [topTrait,topScore]=sorted[0];
+  const [secondTrait,secondScore]=sorted[1];
+  const [lowTrait,lowScore]=sorted[sorted.length-1];
+
+  if(topScore>=72) addUnique(randomPick(traitCommentPools[topTrait].high));
+  else if(topScore<=38) addUnique(randomPick(traitCommentPools[topTrait].low));
+
+  if(secondScore>=72 && Math.random()<0.55){
+    addUnique(randomPick(traitCommentPools[secondTrait].high));
+  }
+
+  if(lowScore<=38){
+    addUnique(randomPick(traitCommentPools[lowTrait].low));
+  }
+
+  const extremes=[];
+  Object.entries(s).forEach(([trait,score])=>{
+    if(score>=90) extremes.push(randomPick(extremeNotices[trait].high));
+    if(score<=15) extremes.push(randomPick(extremeNotices[trait].low));
+  });
+  if(extremes.length) addUnique(randomPick(extremes));
+
+  if(chosen.length<2){
+    addUnique(randomPick(neutralCommentPool));
+  }
+  if(chosen.length<3 && Math.random()<0.70){
+    const middle=sorted.filter(([,v])=>v>38&&v<72);
+    if(middle.length) addUnique(randomPick(neutralCommentPool));
+  }
+
+  return shuffleCopy(chosen).slice(0,4);
+}
+
+function renderCharacterCommentary(comments){
+  const box=document.getElementById("characterComments");
+  box.innerHTML="";
+  comments.forEach(comment=>{
+    const card=document.createElement("div");
+    card.className="character-comment"+(comment.special?" special":"");
+
+    comment.lines.forEach(([speaker,line])=>{
+      const row=document.createElement("div");
+      row.className="dialogue-line";
+      const name=document.createElement("span");
+      name.className="speaker";
+      name.textContent=speaker+":";
+      const body=document.createElement("span");
+      body.textContent=" "+line;
+      row.appendChild(name);
+      row.appendChild(body);
+      card.appendChild(row);
+    });
+    box.appendChild(card);
+  });
+}
+
+function commentaryToText(comments){
+  return comments.map(comment=>
+    comment.lines.map(([speaker,line])=>`${speaker}: ${line}`).join("\n")
+  ).join("\n\n");
 }
 
 function showResults(){
@@ -771,7 +1378,7 @@ function showResults(){
   document.getElementById("quiz").style.display="none";
   document.getElementById("results").style.display="block";
   document.getElementById("resultTitle").textContent=getTitle(sorted);
-  document.getElementById("resultSummary").textContent=summaryFromScores(s,sorted);
+  document.getElementById("resultSummary").textContent=makeAssessmentText(s,sorted);
   const [v,n]=getVerdict(s);
   document.getElementById("verdict").textContent=v;
   document.getElementById("verdictNote").textContent=n;
@@ -787,6 +1394,9 @@ function showResults(){
 
   const strong = sorted.slice(0,3).map(([k,v])=>`<strong>${TRAITS[k]}</strong> (${v}%)`).join(" · ");
   document.getElementById("strongest").innerHTML=strong;
+
+  const commentary=getCharacterCommentary(s,sorted);
+  renderCharacterCommentary(commentary);
 
   const notes=document.getElementById("traitNotes");
   notes.innerHTML="";
@@ -809,6 +1419,7 @@ function showResults(){
   window.latestScores=s;
   window.latestTitle=getTitle(sorted);
   window.latestVerdict=v;
+  window.latestCommentary=commentary;
 }
 
 document.getElementById("retake").onclick=()=>{
@@ -827,7 +1438,10 @@ document.getElementById("copyResult").onclick=async()=>{
     window.latestTitle,
     "Recommendation: "+window.latestVerdict,
     "",
-    ...Object.entries(TRAITS).map(([k,label])=>`${label}: ${window.latestScores[k]}%`)
+    ...Object.entries(TRAITS).map(([k,label])=>`${label}: ${window.latestScores[k]}%`),
+    "",
+    "Warden Commentary:",
+    commentaryToText(window.latestCommentary||[])
   ];
   try{
     await navigator.clipboard.writeText(lines.join("\n"));
