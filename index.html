@@ -207,6 +207,9 @@
     .traits-grid{grid-template-columns:1fr}
     header,.card{padding:22px}
   }
+  .nav {
+  flex-wrap: wrap;
+}
 </style>
 </head>
 <body>
@@ -266,6 +269,7 @@
 
       <div class="nav" style="margin-top:26px">
         <button class="action" id="copyResult">Copy result</button>
+        <button class="action" id="downloadPng">Download as a PNG</button>
         <button class="action primary" id="retake">Retake assessment</button>
       </div>
     </section>
@@ -1473,6 +1477,206 @@ document.getElementById("copyResult").onclick=async()=>{
 };
 
 render();
+  // Create a shareable image using the results already displayed.
+function makeResultCanvas() {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) throw new Error("Canvas unavailable");
+
+  const width = 1080;
+  const margin = 64;
+  const contentWidth = width - margin * 2;
+  const colors = {
+    ink: "#f1eadc",
+    muted: "#b9b1a2",
+    gold: "#d6b56d",
+    blue: "#8bb9c7"
+  };
+
+  const ranks = Object.entries(window.latestScores)
+    .sort((a, b) => b[1] - a[1]);
+
+  const rarityColors = ["#ff9d32", "#b66aff", "#4c9fff"];
+  const draw = [];
+  let y = 64;
+
+  // Measure and wrap text before setting the final image height.
+  function textBlock(
+    text,
+    size,
+    color,
+    lineHeight = Math.ceil(size * 1.4),
+    bold = false
+  ) {
+    const font = `${bold ? "bold " : ""}${size}px Georgia, serif`;
+    ctx.font = font;
+    const lines = [];
+
+    for (const paragraph of String(text).split("\n")) {
+      let line = "";
+
+      for (const word of paragraph.split(/\s+/)) {
+        const candidate = line ? line + " " + word : word;
+
+        if (line && ctx.measureText(candidate).width > contentWidth) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = candidate;
+        }
+      }
+
+      lines.push(line);
+    }
+
+    const top = y;
+
+    draw.push(() => {
+      ctx.font = font;
+      ctx.fillStyle = color;
+      ctx.textBaseline = "top";
+
+      lines.forEach((line, i) => {
+        ctx.fillText(line, margin, top + i * lineHeight);
+      });
+    });
+
+    y += lines.length * lineHeight;
+  }
+
+  textBlock("HOLLOW SONG · SPIRIT WARDENS", 22, colors.gold, 32, true);
+  y += 14;
+
+  textBlock("Recruitment Assessment", 46, colors.ink, 58, true);
+  y += 16;
+
+  textBlock(window.latestTitle, 30, colors.blue, 42, true);
+  y += 18;
+
+  textBlock("Recruitment recommendation", 20, colors.muted, 30);
+  textBlock(window.latestVerdict, 30, colors.gold, 42, true);
+  y += 32;
+
+  ranks.forEach(([trait, score], rank) => {
+    const top = y;
+    const outline = rarityColors[rank] || "#3a4146";
+
+    draw.push(() => {
+      ctx.fillStyle = "#1a1f22";
+      ctx.fillRect(margin, top, contentWidth, 88);
+
+      ctx.strokeStyle = outline;
+      ctx.lineWidth = rank < 3 ? 3 : 1;
+      ctx.strokeRect(margin, top, contentWidth, 88);
+
+      ctx.textBaseline = "top";
+      ctx.font = "bold 25px Georgia, serif";
+      ctx.fillStyle = colors.ink;
+      ctx.fillText(TRAITS[trait], margin + 20, top + 14);
+
+      ctx.textAlign = "right";
+      ctx.fillStyle = colors.muted;
+      ctx.fillText(score + "%", width - margin - 20, top + 14);
+      ctx.textAlign = "left";
+
+      ctx.fillStyle = "#0e1112";
+      ctx.fillRect(margin + 20, top + 57, contentWidth - 40, 12);
+
+      ctx.fillStyle = colors.blue;
+      ctx.fillRect(
+        margin + 20,
+        top + 57,
+        (contentWidth - 40) * score / 100,
+        12
+      );
+    });
+
+    y += 102;
+  });
+
+  y += 20;
+  textBlock("Warden Commentary", 30, colors.gold, 42, true);
+  y += 12;
+
+  // Reuse the exact commentary shown on screen, without rerolling it.
+  (window.latestCommentary || []).forEach(comment => {
+    comment.lines.forEach(([speaker, line]) => {
+      textBlock(
+        speaker + ":",
+        23,
+        comment.special ? colors.gold : colors.blue,
+        33,
+        true
+      );
+
+      textBlock(line, 23, colors.ink, 34);
+      y += 8;
+    });
+
+    y += 18;
+  });
+
+  y += 8;
+  textBlock(
+    "Made for the fans of The Heavens Shall Fall",
+    20,
+    colors.muted,
+    30
+  );
+
+  canvas.width = width;
+  canvas.height = Math.ceil(y + 56);
+
+  ctx.fillStyle = "#111416";
+  ctx.fillRect(0, 0, width, canvas.height);
+
+  ctx.strokeStyle = "#3a4146";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(24, 24, width - 48, canvas.height - 48);
+
+  draw.forEach(fn => fn());
+
+  return canvas;
+}
+
+document.getElementById("downloadPng").onclick = async () => {
+  if (!window.latestScores) return;
+
+  const button = document.getElementById("downloadPng");
+  button.disabled = true;
+  button.textContent = "Creating PNG…";
+
+  try {
+    const canvas = makeResultCanvas();
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(value => {
+        if (value) resolve(value);
+        else reject(new Error("PNG export failed"));
+      }, "image/png");
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "spirit-wardens-result.png";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (error) {
+    alert(
+      "The image could not be created. Please try again, or use Copy result."
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = "Download PNG";
+  }
+};
 </script>
 </body>
 </html>
