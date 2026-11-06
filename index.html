@@ -360,7 +360,7 @@ const questions = [
   ["Ignore it.",{independence:3,reliability:-3}],
   ["Warn them privately.",{cooperation:5,selfControl:3}],
   ["Report it.",{reliability:5,honesty:3}],
-  ["Ask why they did it before deciding.",{curiosity:5,selfControl:3}],
+  ["Ask why they did it before deciding.",{"selfControl":3,"cooperation":3,"curiosity":1}],
   ["Fix the record quietly and move on.",{independence:5,honesty:-5,reliability:3}]
  ]
 },
@@ -368,7 +368,7 @@ const questions = [
  q:"A newly promoted disciple challenges your authority in front of others.",
  a:[
   ["Put them in their place immediately.",{ego:5,selfControl:-3}],
-  ["Ask them to explain their objection.",{selfControl:5,cooperation:3,curiosity:3}],
+  ["Ask them to explain their objection.",{"selfControl":3,"cooperation":3,"honesty":1}],
   ["Ignore the challenge unless it affects the work.",{ego:-5,selfControl:3}],
   ["Invite them to prove they can do better.",{risk:3,ambition:3,ego:3}],
   ["Speak privately afterward.",{cooperation:5,selfControl:5}]
@@ -388,7 +388,7 @@ const questions = [
  q:"An Elder gives you a lawful order you believe is a bad idea.",
  a:[
   ["Obey first. Question it afterward.",{reliability:5,selfControl:3,independence:-3}],
-  ["Question it respectfully before acting.",{independence:3,honesty:5,selfControl:3}],
+  ["Question it respectfully before acting.",{"independence":5,"honesty":2,"selfControl":2}],
   ["Refuse if I think the consequences are serious enough.",{independence:5,risk:3,reliability:-3}],
   ["Find a way to obey the wording without following the intent.",{honesty:-5,independence:5,curiosity:3}],
   ["Ask others whether I am missing something.",{cooperation:5,ego:-3}]
@@ -398,10 +398,10 @@ const questions = [
  q:"You find a valuable crystal on an empty road with no obvious owner.",
  a:[
   ["Turn it in immediately.",{honesty:5,reliability:3}],
-  ["Ask around first, then keep it if nobody claims it.",{honesty:3,curiosity:3}],
+  ["Ask around first, then keep it if nobody claims it.",{"honesty":3,"reliability":2}],
   ["Keep it. Opportunity is opportunity.",{independence:3,honesty:-5,ambition:3}],
   ["Leave it where it is. It could be bait.",{risk:-5,selfControl:3}],
-  ["Inspect it for traps before deciding.",{curiosity:5,selfControl:3}]
+  ["Inspect it for traps before deciding.",{"selfControl":3,"risk":-3,"curiosity":1}]
  ]
 },
 {
@@ -421,7 +421,7 @@ const questions = [
   ["Help if doing so does not endanger everyone else.",{selfControl:5,cooperation:3,risk:-3}],
   ["Help, even if it puts me at serious risk.",{cooperation:5,risk:5}],
   ["They chose their path. I keep moving.",{independence:5,cooperation:-5}],
-  ["I decide based on why I dislike them.",{curiosity:3,selfControl:3,honesty:3}]
+  ["I decide based on why I dislike them.",{"independence":3,"cooperation":-2}]
  ]
 },
 {
@@ -440,7 +440,7 @@ const questions = [
   ["Master the basics exactly as taught.",{reliability:3,selfControl:5,curiosity:-3}],
   ["Understand why every part works.",{curiosity:5,selfControl:3}],
   ["Try it, break it, rebuild it.",{curiosity:5,risk:3}],
-  ["Watch someone skilled and imitate the result.",{independence:3,curiosity:3}],
+  ["Watch someone skilled and imitate the result.",{"independence":3,"selfControl":2}],
   ["Practice with others and compare methods.",{cooperation:5,curiosity:3}]
  ]
 },
@@ -449,7 +449,7 @@ const questions = [
  a:[
   ["Take it. Results matter.",{ambition:5,ego:-3}],
   ["Refuse. Reputation matters too.",{ego:3,reliability:3}],
-  ["Investigate the hidden cost first.",{curiosity:5,selfControl:5}],
+  ["Investigate the hidden cost first.",{"selfControl":3,"risk":-2,"ambition":2}],
   ["Ask people I trust what they think.",{cooperation:5,independence:-3}],
   ["If the only downside is gossip, I take it.",{independence:5,ego:-3,ambition:3}]
  ]
@@ -471,7 +471,7 @@ const questions = [
   ["Ignore them.",{selfControl:5,ego:-5}],
   ["Use it as motivation and answer later with results.",{ambition:5,selfControl:5}],
   ["Mock them back.",{ego:3,selfControl:-3,cooperation:-3}],
-  ["Find out why the loss happened before worrying about insults.",{curiosity:5,reliability:3}]
+  ["Find out why the loss happened before worrying about insults.",{"reliability":5,"curiosity":2}]
  ]
 },
 {
@@ -479,7 +479,7 @@ const questions = [
  a:[
   ["Tell them immediately.",{honesty:5,reliability:3}],
   ["Wait until you can explain it tactfully.",{selfControl:5,cooperation:5}],
-  ["Test whether you are right before saying anything.",{curiosity:5,selfControl:3}],
+  ["Test whether you are right before saying anything.",{"reliability":3,"selfControl":2,"curiosity":1}],
   ["Keep it to yourself unless it becomes dangerous.",{independence:3,honesty:-3}],
   ["Use it against them in sparring so they learn naturally.",{risk:3,curiosity:3,cooperation:-3}]
  ]
@@ -499,7 +499,7 @@ const questions = [
  a:[
   ["Stick close to the plan until the leader changes it.",{reliability:5,independence:-3}],
   ["Adapt immediately.",{independence:5,risk:3}],
-  ["Pause long enough to understand what changed.",{selfControl:5,curiosity:5}],
+  ["Pause long enough to understand what changed.",{"selfControl":3,"reliability":2,"curiosity":1}],
   ["Coordinate a new plan with everyone.",{cooperation:5,selfControl:3}],
   ["Push forward before the enemy adapts too.",{risk:5,selfControl:-3}]
  ]
@@ -508,9 +508,9 @@ const questions = [
  q:"You receive criticism you believe is unfair.",
  a:[
   ["Argue immediately.",{ego:5,selfControl:-5}],
-  ["Listen first, then answer.",{selfControl:5,honesty:3}],
+  ["Listen first, then answer.",{"selfControl":5}],
   ["Ignore it unless it affects my standing.",{independence:3,ego:3}],
-  ["Ask someone neutral whether the criticism has merit.",{cooperation:3,curiosity:5,ego:-3}],
+  ["Ask someone neutral whether the criticism has merit.",{"cooperation":3,"selfControl":2,"ego":-2}],
   ["Remember it and prove them wrong later.",{ambition:5,selfControl:3}]
  ]
 },
@@ -518,7 +518,7 @@ const questions = [
  q:"Your team has one remaining healing pill and two injured members.",
  a:[
   ["Give it to whoever is more useful to the mission.",{selfControl:3,reliability:5,ego:-3}],
-  ["Give it to whoever is worse injured.",{cooperation:5,honesty:3}],
+  ["Give it to whoever is worse injured.",{"cooperation":5}],
   ["Let them decide.",{cooperation:3,independence:-3}],
   ["Keep it if I am also injured and responsible for getting everyone home.",{reliability:5,ego:3}],
   ["Split it, even if that reduces its effectiveness.",{cooperation:5,risk:3}]
@@ -538,17 +538,17 @@ const questions = [
  q:"A stronger cultivator offers to mentor you, but expects obedience outside training too.",
  a:[
   ["Accept. The opportunity is worth it.",{ambition:5,independence:-5}],
-  ["Refuse. Training is not ownership.",{independence:5,honesty:3}],
-  ["Negotiate clear boundaries.",{selfControl:5,honesty:3,cooperation:3}],
+  ["Refuse. Training is not ownership.",{"independence":5}],
+  ["Negotiate clear boundaries.",{"independence":3,"selfControl":3,"cooperation":2}],
   ["Accept temporarily, then leave when I have learned enough.",{ambition:5,honesty:-5}],
-  ["Ask others who trained under them before deciding.",{curiosity:5,selfControl:3}]
+  ["Ask others who trained under them before deciding.",{"selfControl":3,"risk":-2,"cooperation":2}]
  ]
 },
 {
  q:"You are certain a teammate is lying to you, but you do not know why.",
  a:[
   ["Confront them directly.",{honesty:5,ego:3}],
-  ["Watch and gather more information.",{curiosity:5,selfControl:5}],
+  ["Watch and gather more information.",{"selfControl":3,"curiosity":2}],
   ["Give them a chance to tell me on their own.",{cooperation:5,selfControl:3}],
   ["Lie back and see what they do.",{honesty:-5,independence:3}],
   ["Ignore it unless it affects the mission.",{reliability:3,curiosity:-3}]
@@ -559,7 +559,7 @@ const questions = [
  a:[
   ["Fight it.",{risk:5,ego:3}],
   ["Take the long route.",{risk:-5,reliability:3}],
-  ["Study it and look for a way past.",{curiosity:5,selfControl:3}],
+  ["Study it and look for a way past.",{"independence":3,"selfControl":2,"curiosity":1}],
   ["Ask whether the group wants the risk.",{cooperation:5}],
   ["Distract it rather than fight.",{independence:3,curiosity:3,risk:3}]
  ]
@@ -580,7 +580,7 @@ const questions = [
   ["Correct them every time.",{reliability:5,cooperation:3}],
   ["Teach them a different way.",{cooperation:5,curiosity:3}],
   ["Let them deal with the consequences.",{independence:5,cooperation:-3}],
-  ["Ask why the mistake keeps happening.",{curiosity:5,selfControl:3}],
+  ["Ask why the mistake keeps happening.",{"cooperation":3,"reliability":3,"curiosity":1}],
   ["Eventually lose patience.",{selfControl:-5,honesty:3}]
  ]
 },
@@ -610,7 +610,7 @@ const questions = [
   ["If I promise something, I finish it.",{reliability:5}],
   ["If circumstances change, promises may need to change too.",{independence:3,reliability:-3}],
   ["I avoid promising what I cannot guarantee.",{selfControl:5,reliability:3}],
-  ["A promise to people matters more than a promise to rules.",{cooperation:5,honesty:3}],
+  ["A promise to people matters more than a promise to rules.",{"cooperation":5,"independence":2}],
   ["Promises are useful, but survival comes first.",{risk:-3,independence:3}]
  ]
 },
@@ -629,7 +629,7 @@ const questions = [
  a:[
   ["Refuse.",{risk:-5,selfControl:3}],
   ["Help, but stay guarded.",{risk:3,selfControl:5}],
-  ["Ask questions until the story makes sense.",{curiosity:5,honesty:3}],
+  ["Ask questions until the story makes sense.",{"selfControl":3,"risk":-2,"curiosity":1}],
   ["Help if the reward is good enough.",{ambition:3,independence:3}],
   ["Bring someone else with me.",{cooperation:5,risk:-3}]
  ]
@@ -658,7 +658,7 @@ const questions = [
  q:"Which leadership style would you trust most?",
  a:[
   ["The strongest person gives clear orders.",{independence:-3,ego:3,reliability:3}],
-  ["The most competent person leads each situation.",{curiosity:3,ego:-3,selfControl:3}],
+  ["The most competent person leads each situation.",{"reliability":3,"cooperation":2,"ego":-2}],
   ["The group decides important matters together.",{cooperation:5}],
   ["A leader sets direction but expects disagreement.",{honesty:3,cooperation:3,independence:3}],
   ["I prefer not to depend on leaders.",{independence:5}]
@@ -671,7 +671,7 @@ const questions = [
   ["Explain only if someone asks.",{independence:3,honesty:-3}],
   ["Take responsibility for breaking the plan, even though it worked.",{reliability:5,honesty:3}],
   ["The result proves the deviation was correct.",{ego:3,independence:5}],
-  ["Review why the plan failed before judging anyone.",{curiosity:5,selfControl:5}]
+  ["Review why the plan failed before judging anyone.",{"reliability":4,"selfControl":2,"curiosity":2}]
  ]
 },
 {
@@ -691,7 +691,7 @@ const questions = [
   ["Leave until I calm down.",{selfControl:5}],
   ["Turn the anger into action.",{ambition:3,risk:3}],
   ["Talk to someone I trust.",{cooperation:5,independence:-3}],
-  ["Figure out what actually triggered me.",{curiosity:5,selfControl:3}]
+  ["Figure out what actually triggered me.",{"selfControl":4,"curiosity":1}]
  ]
 },
 {
@@ -700,7 +700,7 @@ const questions = [
   ["Accept immediately.",{risk:5,ambition:5,ego:3}],
   ["Accept only if the reward changes my future.",{risk:3,ambition:5,selfControl:3}],
   ["Decline. Fame is not worth permanent damage.",{risk:-5,ego:-3}],
-  ["Study every available detail before deciding.",{curiosity:5,selfControl:5}],
+  ["Study every available detail before deciding.",{"selfControl":3,"risk":-2,"ambition":2}],
   ["Take it only if my team agrees to the same risk.",{cooperation:5,risk:3}]
  ]
 }
