@@ -161,6 +161,7 @@
   .fill.rarity-legendary{background:linear-gradient(90deg,#b85c12,#ff9d32)}
   .fill.rarity-epic{background:linear-gradient(90deg,#7139b5,#b66aff)}
   .fill.rarity-rare{background:linear-gradient(90deg,#2458ae,#4c9fff)}
+  .fill.extreme-low{background:linear-gradient(90deg,#8b242a,#ef6269)}
   .score{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
   .summary-box{
     border-top:1px solid var(--line);
@@ -2107,9 +2108,12 @@ function boostLeadingTraits(scores){
   return result;
 }
 
+const HIGH_THRESHOLD=80;
+const LOW_THRESHOLD=35;
+
 function band(score){
-  if(score>=72) return "high";
-  if(score<=38) return "low";
+  if(score>=HIGH_THRESHOLD) return "high";
+  if(score<=LOW_THRESHOLD) return "low";
   return "mid";
 }
 
@@ -2749,127 +2753,363 @@ const extremeNotices = {
 };
 
 const comboCommentPool = [
-  {when:s=>s.risk>=72&&s.selfControl>=72, comments:[
+  {when:s=>s.risk>=HIGH_THRESHOLD&&s.selfControl>=HIGH_THRESHOLD, comments:[
     {lines:[["Siu","See? High risk and high self-control. It works."],["Rinmei","Calculated danger is still danger."],["Siu","But he can plan around it."],["Rinmei","You are not helping here. Go away."]]},
     {lines:[["Seloryn","You think before doing something dangerous."],["Quillian","Which merely means they have time to understand exactly how stupid it is."]]},
     {lines:[["Ruben","Bold and controlled. Excellent."],["Joren","You just like the bold part."],["Ruben","And?"]]}
   ]},
-  {when:s=>s.risk>=72&&s.selfControl<=38, comments:[
+  {when:s=>s.risk>=HIGH_THRESHOLD&&s.selfControl<=LOW_THRESHOLD, comments:[
     {lines:[["Arya","YES! FINALLY, SOMEONE NORMAL!"],["Siu","Do not listen to her."]]},
     {lines:[["Rinmei","You recognize danger and somehow interpret it as encouragement."],["Quillian","A surprisingly common disease amongst the Wardens."]]},
     {lines:[["Siu","I need you to think before jumping."],["Arya","THINK WHILE JUMPING!"],["Siu","If you can fly, that is."]]}
   ]},
-  {when:s=>s.ego>=72&&s.cooperation<=38, comments:[
+  {when:s=>s.ego>=HIGH_THRESHOLD&&s.cooperation<=LOW_THRESHOLD, comments:[
     {lines:[["Ruben","I see nothing wrong here."],["Joren","Of course you don't."],["Rinmei","I see several things."]]},
     {lines:[["Seloryn","You know an association contains people other than you?"],["Ruben","Allegedly."]]},
     {lines:[["Siu","Confidence: good. Treating teammates like supporting characters: the opposite."]]}
   ]},
-  {when:s=>s.cooperation>=72&&s.reliability>=72, comments:[
+  {when:s=>s.cooperation>=HIGH_THRESHOLD&&s.reliability>=HIGH_THRESHOLD, comments:[
     {lines:[["Rinmei","Accepted."],["Siu","You can't accept them from the questionnaire."],["Rinmei","Watch me."]]},
     {lines:[["Marly","They help people and keep promises. Keep them!"],["Arya","MARLY HAS SPOKEN!"]]},
     {lines:[["Nokoh","A person the group can depend on."],["Cho'Wa","Pack material."]]}
   ]},
-  {when:s=>s.independence>=72&&s.cooperation<=38, comments:[
+  {when:s=>s.independence>=HIGH_THRESHOLD&&s.cooperation<=LOW_THRESHOLD, comments:[
     {lines:[["Seloryn","Do you actually want to join an association?"],["Siu","Fair question."]]},
     {lines:[["Rinmei","You appear to have applied for membership in order to avoid every member we already have...?"]]},
     {lines:[["Bren","Working alone is fine."],["Rinmei","Bren, you are not helping the screening process."]]}
   ]},
-  {when:s=>s.curiosity>=72&&s.risk>=72, comments:[
+  {when:s=>s.curiosity>=HIGH_THRESHOLD&&s.risk>=HIGH_THRESHOLD, comments:[
     {lines:[["Quillian","Absolutely not."],["Siu","Why?"],["Quillian","Because that's how I ended up with you, boy."]]},
     {lines:[["Arya","MYSTERY CAVE!"],["Rinmei","No."],["Arya","MYSTERY FORMATION!"],["Rinmei","Still no."]]},
     {lines:[["Siu","You want to know what it does."],["Seloryn","And you're willing to find out personally."],["Siu","That's the interesting part."]]}
   ]},
-  {when:s=>s.ambition>=72&&s.ego>=72, comments:[
+  {when:s=>s.ambition>=HIGH_THRESHOLD&&s.ego>=HIGH_THRESHOLD, comments:[
     {lines:[["Ruben","Promising."],["Joren","You are literally complimenting yourself here, aren't you?"]]},
     {lines:[["Seloryn","You want the summit and you want everyone to know when you reach it."],["Ruben","As they should. Plant your flag."]]},
     {lines:[["Siu","Aim high, but if you treat everything as a ranking match, we will have a problem."]]}
   ]},
-  {when:s=>s.honesty>=72&&s.selfControl<=38, comments:[
+  {when:s=>s.honesty>=HIGH_THRESHOLD&&s.selfControl<=LOW_THRESHOLD, comments:[
     {lines:[["Rinmei","Being honest does not require saying every thought immediately."],["Arya","LIES! Wait... Um... TRUTHS!"]]},
     {lines:[["Seloryn","Truthful and impulsive. Ouch."],["Siu","That combination starts arguments very efficiently, so it needs to be focused at the right people."]]},
     {lines:[["Quillian","At least when you insult someone, they'll know you meant it."]]}
   ]},
-  {when:s=>s.curiosity<=38&&s.reliability>=72, comments:[
+  {when:s=>s.curiosity<=LOW_THRESHOLD&&s.reliability>=HIGH_THRESHOLD, comments:[
     {lines:[["Bren","Does it work?"],["Rinmei","Yes."],["Bren","Then why are we still talking?"]]},
     {lines:[["Siu","You don't need every answer. You just need the job done correctly."],["Quillian","Barbaric."]]},
     {lines:[["Joren","Reliable and unlikely to waste three hours investigating something nobody understands anyway. Excellent."]]}
   ]},
-  {when:s=>s.independence<=38&&s.cooperation>=72, comments:[
+  {when:s=>s.independence<=LOW_THRESHOLD&&s.cooperation>=HIGH_THRESHOLD, comments:[
     {lines:[["Marly","Why go alone when your friends are right there?"],["Arya","EXACTLY! SEND THEM IN FIRST!"]]},
     {lines:[["Rinmei","You function best as part of a group."],["Siu","Just don't develop separation anxiety like Marly or Arya."]]},
     {lines:[["Cho'Wa","Pack-minded."],["Nokoh","That's high praise, coming from him."]]}
   ]},
-  {when:s=>s.ambition>=72&&s.ego<=38, comments:[
+  {when:s=>s.ambition>=HIGH_THRESHOLD&&s.ego<=LOW_THRESHOLD, comments:[
     {lines:[["Seloryn","You want to reach the top? Then put in the work, and we will support you."]]},
     {lines:[["Siu","Driven, I'll give you that. Don't expect us to give up our posts to you, though."]]},
     {lines:[["Ruben","Why climb that high if nobody sees it?"],["Joren","For the achievement?"],["Ruben","Huh. I hate it when you make sense."]]}
   ]},
-  {when:s=>s.selfControl>=72&&s.risk<=38, comments:[
+  {when:s=>s.selfControl>=HIGH_THRESHOLD&&s.risk<=LOW_THRESHOLD, comments:[
     {lines:[["Rinmei","Finally. Someone who thinks before speaking. A rare trait around here."]]},
     {lines:[["Joren","Planning and survival. Excellent combination."]]},
     {lines:[["Arya","YOU ARE BORING."],["Siu","You don't even know them."],["Arya","BORING AND THAT'S THAT!"]]}
   ]},
-  {when:s=>s.honesty>=72&&s.cooperation>=72, comments:[
+  {when:s=>s.honesty>=HIGH_THRESHOLD&&s.cooperation>=HIGH_THRESHOLD, comments:[
     {lines:[["Marly","Honest and friendly. I vote yes."],["Rinmei","You don't have a vote."],["Marly","I still vote yes."]]},
     {lines:[["Siu","You'd rather solve problems directly than let them trouble the others. I respect that."]]},
     {lines:[["Seloryn","Useful, but try to learn how to soften your speech."]]}
   ]},
-  {when:s=>s.honesty<=38&&s.ego>=72, comments:[
+  {when:s=>s.honesty<=LOW_THRESHOLD&&s.ego>=HIGH_THRESHOLD, comments:[
     {lines:[["Rinmei","You want recognition, but you're flexible about how the story is told."],["Siu","That was diplomatic..."],["Rinmei","I practiced."]]},
     {lines:[["Ruben","Presentation matters."],["Joren","Truth doesn't equal presentation."],["Ruben","I didn't say it did; it just sells it better."]]},
     {lines:[["Quillian","If you're going to rewrite history, at least make yourself impressive. And believable."]]}
   ]},
-  {when:s=>s.reliability>=72&&s.independence>=72, comments:[
+  {when:s=>s.reliability>=HIGH_THRESHOLD&&s.independence>=HIGH_THRESHOLD, comments:[
     {lines:[["Siu","You can be trusted to handle something without being chased down afterward. That's rare."]]},
     {lines:[["Rinmei","Self-directed and dependable."],["Seloryn","You sound relieved."],["Rinmei","Oh, believe me... I am!"]]},
     {lines:[["Bren","Give them the job and let them work. Exactly what I prefer."]]}
   ]},
-  {when:s=>s.reliability<=38&&s.risk>=72, comments:[
+  {when:s=>s.reliability<=LOW_THRESHOLD&&s.risk>=HIGH_THRESHOLD, comments:[
     {lines:[["Rinmei","You are adventurous and difficult to depend on. That is not the reassuring combination you think it is."]]},
     {lines:[["Siu","You keep volunteering for missions, but I can't be sure you'll remember the plan we have for them."],["Arya","PLANS ARE FLEXIBLE LIKE I AM!"]]},
     {lines:[["Quillian","A wandering catastrophe... Why do we need another one? Tsk..."]]}
   ]},
-  {when:s=>s.ambition<=38&&s.ego<=38, comments:[
+  {when:s=>s.ambition<=LOW_THRESHOLD&&s.ego<=LOW_THRESHOLD, comments:[
     {lines:[["Seloryn","You don't seem interested in rankings."],["Siu","Honestly? Sometimes I totally get it."]]},
     {lines:[["Ruben","What motivates you?"],["Marly","Maybe being happy?"],["Ruben","Please note that I don't understand what she is squeaking."]]},
     {lines:[["Rinmei","Low-maintenance applicants do exist... I knew it!"]]}
   ]},
-  {when:s=>s.curiosity>=72&&s.selfControl>=72, comments:[
+  {when:s=>s.curiosity>=HIGH_THRESHOLD&&s.selfControl>=HIGH_THRESHOLD, comments:[
     {lines:[["Quillian","Good. Curious enough to ask, disciplined enough not to interrupt my explanation. We will get along just fine."]]},
     {lines:[["Rinmei","You investigate before acting."],["Siu","See? Curiosity can be responsible."],["Rinmei","I never said it couldn't; it's just Arya and the like who are taking it too far..."]]},
     {lines:[["Seloryn","I appreciate the patience to wait for the correct answer."]]}
   ]},
-  {when:s=>s.cooperation>=72&&s.independence>=72, comments:[
+  {when:s=>s.cooperation>=HIGH_THRESHOLD&&s.independence>=HIGH_THRESHOLD, comments:[
     {lines:[["Siu","Interesting... Kind of. You work well with people without needing them to decide for you, which Rinmei will love."]]},
     {lines:[["Rinmei","Independent without being allergic to teamwork? I can find you something to do right away..."]]},
     {lines:[["Nokoh","You can stand alone and still choose not to. Huh."]]}
   ]},
-  {when:s=>s.ego>=72&&s.reliability>=72, comments:[
+  {when:s=>s.ego>=HIGH_THRESHOLD&&s.reliability>=HIGH_THRESHOLD, comments:[
     {lines:[["Ruben","High ego and high reliability. Finally, the one who embodies perfection."],["Joren","That was literally your result."],["Ruben","Exactly. A proven model."]]},
     {lines:[["Siu","You think highly of yourself, but at least people can count on you. Please don't change for the worse."]]},
     {lines:[["Seloryn","Proud, but dependable. Annoying, but not as much as I would have expected."]]}
   ]},
-  {when:s=>s.risk<=38&&s.ambition>=72, comments:[
+  {when:s=>s.risk<=LOW_THRESHOLD&&s.ambition>=HIGH_THRESHOLD, comments:[
     {lines:[["Joren","You want to climb, but you'd prefer not to fall off the mountain. You and I will be good friends."]]},
     {lines:[["Rinmei","Ambitious without gambling everything. Make it stay that way, okay?"]]},
     {lines:[["Quillian","Careful ambition still reaches the top, it merely takes just a bit longer."]]}
   ]},
-  {when:s=>s.risk>=72&&s.reliability>=72, comments:[
+  {when:s=>s.risk>=HIGH_THRESHOLD&&s.reliability>=HIGH_THRESHOLD, comments:[
     {lines:[["Siu","You'll take the dangerous mission and actually come back when you said you would. I respect that a lot."]]},
     {lines:[["Rinmei","You are dependable enough that your risk tolerance becomes everyone else's problem."]]},
     {lines:[["Arya","DANGEROUS AND RELIABLE! PERFECT!"],["Marly","Those words shouldn't sound good together, Big Sis."]]}
   ]},
-  {when:s=>s.honesty<=38&&s.independence>=72, comments:[
+  {when:s=>s.honesty<=LOW_THRESHOLD&&s.independence>=HIGH_THRESHOLD, comments:[
     {lines:[["Seloryn","You make your own decisions and don't necessarily explain them afterward... I don't know..."],["Rinmei","Yeah, please make sure it won't give us extra work."]]},
     {lines:[["Siu","Secretive and self-directed? Haaah... You can also become impossible to manage. Great..."]]},
     {lines:[["Quillian","Keep your secrets if you like. Just don't expect people to trust what they can't see..."]]}
   ]},
-  {when:s=>s.selfControl<=38&&s.ego>=72, comments:[
+  {when:s=>s.selfControl<=LOW_THRESHOLD&&s.ego>=HIGH_THRESHOLD, comments:[
     {lines:[["Joren","So you react immediately and take everything personally."],["Ruben","I can have fun with that."],["Joren","That is not why I brought it up..."]]},
     {lines:[["Rinmei","I am moving your room away from others and moving you away from anything expensive and breakable."]]},
     {lines:[["Siu","Pride plus impulse. Learn when to walk away before I have to teach that to you."]]}
   ]}
 ];
+
+
+// Additional standalone assessments; existing hand-edited entries are retained.
+const newExtremeAssessments = {
+  "reliability": [
+    [
+      "Rinmei",
+      "You have the rare ability of making a deadline weeks before others."
+    ],
+    [
+      "Quillian",
+      "I might trust you with the original manuscript, which is more responsibility than I give most people with a pulse."
+    ]
+  ],
+  "selfControl": [
+    [
+      "Seloryn",
+      "You could probably sit through Ruben praising himself without giving him the reaction he wants."
+    ],
+    [
+      "Rinmei",
+      "I am considering seating you beside Arya at meetings, although that may qualify as abuse of a valuable comrade."
+    ]
+  ],
+  "ambition": [
+    [
+      "Ruben",
+      "You look at the Paragon List as though somebody has temporarily occupied your seat."
+    ],
+    [
+      "Quillian",
+      "You intend to surpass everyone around you, so I shall document your journey."
+    ]
+  ],
+  "cooperation": [
+    [
+      "Siu",
+      "You would make this association feel like somewhere people belong, and that matters more than another Paragon on our roster."
+    ],
+    [
+      "Rinmei",
+      "I suspect you could organize a group task without having me correct anything."
+    ]
+  ],
+  "independence": [
+    [
+      "Seloryn",
+      "You would find your own path even if we handed you a map Marly used as a chewing toy."
+    ],
+    [
+      "Quillian",
+      "You are determined to reach your own conclusions, so bring a notebook large enough for your findings."
+    ]
+  ],
+  "curiosity": [
+    [
+      "Quillian",
+      "You look like someone who would discover a second question halfway through answering the first, so pull up a chair and let's talk."
+    ],
+    [
+      "Toban",
+      "I suspect selling you one answer would only create a customer for the next ten. So... how much do you want to know?"
+    ]
+  ],
+  "honesty": [
+    [
+      "Seloryn",
+      "I would love to see you talk to Core Disciples and watch them realize that you mean what you say."
+    ],
+    [
+      "Rinmei",
+      "Your report might contain the actual events on the first attempt, and I need a moment to appreciate that."
+    ]
+  ],
+  "risk": [
+    [
+      "Arya",
+      "YEAH, BEAT THEM UP, NEW GUY! WOOHOOOO!"
+    ],
+    [
+      "Siu",
+      "Please stop giving Arya more ideas about our next mission..."
+    ]
+  ],
+  "ego": [
+    [
+      "Ruben",
+      "You have the bearing of someone who expects the applause to begin before the introduction is finished."
+    ],
+    [
+      "Joren",
+      "I will seat you opposite my brother so the rest of us can finish dinner while you compare your daily achievements."
+    ]
+  ]
+};
+Object.entries(newExtremeAssessments).forEach(([trait,lines])=>{
+  extremeNotices[trait].high.push(...lines.map(line=>({special:true,lines:[line]})));
+});
+const newComboAssessments = [
+  [
+    "Siu",
+    "You can accept a dangerous plan, but don't think you can't say no."
+  ],
+  [
+    "Rinmei",
+    "I expect your emergency contact to hear about the mission before I receive your departure notice."
+  ],
+  [
+    "Seloryn",
+    "You want a place in the Wardens, but apparently everyone else is expected to stand behind it."
+  ],
+  [
+    "Rinmei",
+    "You help without being chased and finish without being reminded, so please do not let Siu distract you."
+  ],
+  [
+    "Toban",
+    "You want access to an association with the social obligations of an empty room, which I understand perfectly."
+  ],
+  [
+    "Quillian",
+    "You intend to test the unknown personally, so at least leave your notes somewhere the explosion will not reach."
+  ],
+  [
+    "Ruben",
+    "Whenever you become an Elder, make sure to remember where you came from and get us some good protection."
+  ],
+  [
+    "Seloryn",
+    "You say the truth before even scanning if the room contains anyone likely enough to throw a piece of furniture back at you."
+  ],
+  [
+    "Joren",
+    "You would finish installing a shelf before asking why anyone wanted another one."
+  ],
+  [
+    "Nokoh",
+    "You find your footing beside someone you trust, and I know how strong that bond can make you."
+  ],
+  [
+    "Toban",
+    "You would rather gain influence than be seen gaining it, which is an excellent way to avoid unnecessary visitors."
+  ],
+  [
+    "Rinmei",
+    "You check the danger and keep your head, so I would like you to read Arya's proposed itinerary."
+  ],
+  [
+    "Siu",
+    "You would tell a teammate the difficult truth because you want them to come home with you."
+  ],
+  [
+    "Joren",
+    "Your account of the victory appears to have given you a larger role with every retelling."
+  ],
+  [
+    "Rinmei",
+    "I could give you a task and return to my own work instead of making supervision my new occupation."
+  ],
+  [
+    "Quillian",
+    "You will volunteer to enter the ruin and then forget the one instruction intended to keep you alive."
+  ],
+  [
+    "Seloryn",
+    "You seem able to enjoy your own life without ever realizing you joined us."
+  ],
+  [
+    "Quillian",
+    "You want to understand the experiment before touching it, so you may actually keep both your hands."
+  ],
+  [
+    "Siu",
+    "You can decide for yourself and still listen to the group, which makes sharing responsibility much easier."
+  ],
+  [
+    "Ruben",
+    "You insist your name means something and then do the work to make that true."
+  ],
+  [
+    "Joren",
+    "You want to advance without spending your future on one impressive afternoon."
+  ],
+  [
+    "Nokoh",
+    "You will take the dangerous position and hold it long enough for your partner to act."
+  ],
+  [
+    "Toban",
+    "You prefer both your decisions and your reasons to remain your own property."
+  ],
+  [
+    "Rinmei",
+    "You hear an insult and begin responding before checking whether anyone was actually speaking to you."
+  ]
+];
+newComboAssessments.forEach((line,i)=>comboCommentPool[i].comments.push({lines:[line]}));
+const newLowAssessments = {
+  "reliability": [
+    "Rinmei",
+    "Your promises will be recorded in formation ink, so nobody can say they weren't real."
+  ],
+  "selfControl": [
+    "Joren",
+    "I will bring the inexpensive cups whenever you have something upsetting to discuss."
+  ],
+  "ambition": [
+    "Ruben",
+    "You appear satisfied with your current place, which makes offering motivational advice unexpectedly difficult."
+  ],
+  "cooperation": [
+    "Seloryn",
+    "You seem to prefer teamwork when the team agrees to leave you alone. You do realize that teamwork has the word 'team' in it, yes?"
+  ],
+  "independence": [
+    "Siu",
+    "You can ask us for advice, but I still want the final decision to belong to you."
+  ],
+  "curiosity": [
+    "Quillian",
+    "I suspect you would close a book the moment its answer is not in the foreword."
+  ],
+  "honesty": [
+    "Toban",
+    "You choose what people hear with some care, so I shall listen just as carefully to what you leave out."
+  ],
+  "risk": [
+    "Joren",
+    "You seem likely to return with both the reward and the person sent to collect it, slung over your shoulders."
+  ],
+  "ego": [
+    "Seloryn",
+    "You might let someone else take the applause, but I will still want your name on the work you did."
+  ]
+};
+Object.entries(newLowAssessments).forEach(([trait,line])=>traitCommentPools[trait].low.push({lines:[line]}));
 
 function makeAssessmentText(s,sorted){
   const top=sorted.slice(0,3).map(([k])=>TRAITS[k]);
@@ -2886,60 +3126,58 @@ function makeAssessmentText(s,sorted){
   return randomPick(templates);
 }
 
+// Ties use the same stable ranking as the result bars; highlight only one low trait.
+function lowestExtremeTrait(sorted){
+  const lowest=sorted[sorted.length-1];
+  return lowest && lowest[1]<=LOW_THRESHOLD ? lowest[0] : null;
+}
+
 function getCharacterCommentary(s,sorted){
   const chosen=[];
-  const fingerprints=new Set();
-
-  const addUnique=(comment)=>{
-    if(!comment) return;
-    const fp=JSON.stringify(comment.lines);
-    if(fingerprints.has(fp)) return;
-    fingerprints.add(fp);
+  const seen=new Set();
+  const standalone=pool=>pool.filter(c=>c.lines.length===1);
+  const add=comment=>{
+    if(!comment) return false;
+    const key=JSON.stringify(comment.lines);
+    if(seen.has(key)) return false;
+    seen.add(key);
     chosen.push(comment);
+    return true;
   };
+  const [leader,score]=sorted[0];
+  const lowTrait=lowestExtremeTrait(sorted);
 
-  const matchingCombos=comboCommentPool.filter(x=>x.when(s));
-  if(matchingCombos.length){
-    const first=randomPick(matchingCombos);
-    addUnique(randomPick(first.comments));
+  // Exactly one high-extreme quote, exclusively for a qualifying leader.
+  if(score>=HIGH_THRESHOLD) add(randomPick(standalone(extremeNotices[leader].high)));
 
-    if(matchingCombos.length>1 && Math.random()<0.45){
-      const rest=matchingCombos.filter(x=>x!==first);
-      if(rest.length) addUnique(randomPick(randomPick(rest).comments));
-    }
-  }
-
-  const [topTrait,topScore]=sorted[0];
-  const [secondTrait,secondScore]=sorted[1];
-  const [lowTrait,lowScore]=sorted[sorted.length-1];
-
-  if(topScore>=72) addUnique(randomPick(traitCommentPools[topTrait].high));
-  else if(topScore<=38) addUnique(randomPick(traitCommentPools[topTrait].low));
-
-  if(secondScore>=72 && Math.random()<0.55){
-    addUnique(randomPick(traitCommentPools[secondTrait].high));
-  }
-
-  if(lowScore<=38){
-    addUnique(randomPick(traitCommentPools[lowTrait].low));
-  }
-
-  const extremes=[];
-  Object.entries(s).forEach(([trait,score])=>{
-    if(score>=90) extremes.push(randomPick(extremeNotices[trait].high));
-    if(score<=15) extremes.push(randomPick(extremeNotices[trait].low));
+  // Treat each standalone comment as one quote; never split an exchange.
+  // Regular trait comments use their own ranges, separate from extremes.
+  const pools=comboCommentPool.filter(group=>group.when(s))
+    .map(group=>standalone(group.comments)).filter(pool=>pool.length);
+  sorted.forEach(([trait,value])=>{
+    if(value>=55 && value<=79) pools.push(standalone(traitCommentPools[trait].high));
+    if(value>=36 && value<=45) pools.push(standalone(traitCommentPools[trait].low));
   });
-  if(extremes.length) addUnique(randomPick(extremes));
-
-  if(chosen.length<2){
-    addUnique(randomPick(neutralCommentPool));
+  if(!pools.length || sorted.some(([,value])=>value>=46 && value<=54)){
+    pools.push(standalone(neutralCommentPool));
   }
-  if(chosen.length<3 && Math.random()<0.70){
-    const middle=sorted.filter(([,v])=>v>38&&v<72);
-    if(middle.length) addUnique(randomPick(neutralCommentPool));
+  // Pick a pool, then a quote, so longer pools do not dominate selection.
+  while(chosen.length<3){
+    const available=pools.map(pool=>pool.filter(c=>!seen.has(JSON.stringify(c.lines))))
+      .filter(pool=>pool.length);
+    if(!available.length){
+      pools.push(standalone(neutralCommentPool));
+      continue;
+    }
+    add(randomPick(randomPick(available)));
   }
-
-  return shuffleCopy(chosen).slice(0,4);
+  const base=shuffleCopy(chosen);
+  if(lowTrait){
+    const lowPool=standalone(traitCommentPools[lowTrait].low)
+      .filter(c=>!seen.has(JSON.stringify(c.lines)));
+    base.push(randomPick(lowPool));
+  }
+  return base;
 }
 
 function renderCharacterCommentary(comments){
@@ -2989,7 +3227,8 @@ function showResults(){
     row.className="trait-row";
     const rank=sorted.findIndex(([trait])=>trait===k);
     const rarity=["legendary","epic","rare"][rank];
-    const fillClass="fill"+(rarity?" rarity-"+rarity:"");
+    const isLowestLow=k===lowestExtremeTrait(sorted);
+    const fillClass="fill"+(isLowestLow?" extreme-low":rarity?" rarity-"+rarity:"");
     row.innerHTML=`<div class="trait-name">${label}</div><div class="bar"><div class="${fillClass}" style="width:${s[k]}%"></div></div><div class="score">${s[k]}%</div>`;
     bars.appendChild(row);
   });
@@ -3166,7 +3405,12 @@ function makeResultCanvas() {
       ctx.fillStyle = "#0e1112";
       ctx.fillRect(margin + 20, top + 57, contentWidth - 40, 12);
 
-      if(rank < 3){
+      if(trait===lowestExtremeTrait(ranks)){
+        const gradient=ctx.createLinearGradient(margin+20,0,margin+20+Math.max(1,(contentWidth-40)*score/100),0);
+        gradient.addColorStop(0,"#8b242a");
+        gradient.addColorStop(1,"#ef6269");
+        ctx.fillStyle=gradient;
+      }else if(rank < 3){
         const gradient=ctx.createLinearGradient(
           margin+20,0,margin+20+(contentWidth-40)*score/100,0
         );
